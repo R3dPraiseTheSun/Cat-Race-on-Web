@@ -152,9 +152,23 @@ footer{
     font-size: small;
     text-align: center;
     vertical-align: middle;
-    position: relative;
 }
 footer > div{
     height: 100%;
     display: inline-block;
+}
+.loginModal{
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    border: 5px solid black;
+    margin: auto;
+    text-align: center;
+    z-index: 1;
+    display: none;
 }
