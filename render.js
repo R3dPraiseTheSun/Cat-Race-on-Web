@@ -1,14 +1,11 @@
-import{Acasa} from "./Pages/Acasa/Acasa.js";
+import Acasa from "./Pages/Acasa/Acasa.js"
+import{Curse} from "./Pages/Curse/Curse.js";
+import{AdaugaBani} from "./Pages/AdaugaBani/AdaugaBani.js";
+import{About} from "./Pages/About/About.js";
 
-const acasaPath = "./Pages/About/Acasa/Acasa.js";
-const cursePath = "./Pages/About/Acasa/Acasa.js";
-const adaugaBaniPath = "./Pages/About/Acasa/Acasa.js";
-const aboutPath = "./Pages/About/About/About.js";
+import * as Utils from "./Pages/Utils/SwitchPageUtils.js"
 
-let selectedPage = "Acasa";
+const pageArr = [[0, Acasa], [1, Curse], [2, AdaugaBani], [3, About]];
+export const pageMap = new Map(pageArr);
 
-var root = document.getElementById("root");
-switch(selectedPage){
-    case "Acasa":
-        root.innerHTML = Acasa;
-}
+Utils.changePage(0);
