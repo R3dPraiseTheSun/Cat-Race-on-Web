@@ -1,4 +1,5 @@
 import * as LoginFunc from "../Components/Login.js";
+import {Navbar} from "../Components/Navbar.js"
 window.showModal = LoginFunc.showModal;
 
 const acasaHTML = `
@@ -11,17 +12,9 @@ const acasaHTML = `
         <p class="signup"><button>Sign up</button></p>
     </div>
     
-</header>
-<nav>
-    <ul>
-        <li><button>Acasa</button></li>
-        <li><button>Curse</button></li>
-        <li><button>Adauga Bani</button></li>
-        <li><button>About</button></li>
-    </ul>
-</nav>
-
-<article>
+</header>`
++ Navbar +
+`<article>
     <div>
         <img src="https://pbs.twimg.com/profile_images/1291871024728997888/n38ACTc4_400x400.jpg" alt="Minecraft cat"/>
         <audio src="resources/wideputinsong.mp3" type="audio/mpeg" controls></audio>
@@ -34,4 +27,4 @@ const acasaHTML = `
 </footer>
 `;
 
-export {acasaHTML as Acasa};
+export default acasaHTML;

@@ -28,7 +28,6 @@ header {
     background: rgba(0, 0, 0, 0.8);
     border-width: 0 0 4px 0;
     border-style: solid;
-    position: relative;
 }
 header > .title{
     width: 100%;
@@ -83,7 +82,6 @@ nav{
     padding: 0;
     border-width: 0 0 6px 0;
     border-style: solid;
-    position: relative;
 }
 nav > ul {
     color: chocolate;
@@ -99,7 +97,6 @@ nav > ul > li{
     vertical-align: middle;
     height: inherit;
     width: 24%;
-    position: relative;
 }
 nav > ul > li > button{
     border-width: 3px;
@@ -135,7 +132,6 @@ nav > ul > li:last-child > button{
 }
 article{
     height:70%;
-    position: relative;
 }
 article > div{
     height: 100%;
