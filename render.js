@@ -1,7 +1,7 @@
 import Acasa from "./Pages/Acasa/Acasa.js"
-import{Curse} from "./Pages/Curse/Curse.js";
-import{AdaugaBani} from "./Pages/AdaugaBani/AdaugaBani.js";
-import{About} from "./Pages/About/About.js";
+import Curse from "./Pages/Curse/Curse.js";
+import AdaugaBani from "./Pages/AdaugaBani/AdaugaBani.js";
+import About from "./Pages/About/About.js";
 
 import * as Utils from "./Pages/Utils/SwitchPageUtils.js"
 
