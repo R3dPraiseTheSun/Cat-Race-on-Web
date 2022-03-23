@@ -3,3 +3,4 @@ Sa se implementeze o aplicatie Web oferind utilizatorilor autentificati posibili
 
 # Useful links
 - trello: "https://trello.com/b/4kganZ7L/general"
+- public server (if server is up and running): http://79.112.44.112/web/
