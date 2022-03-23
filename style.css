@@ -95,7 +95,7 @@ nav > ul > li{
     display: inline-block;
     text-align: center;
     vertical-align: middle;
-    height: inherit;
+    height: 66%;
     width: 24%;
 }
 nav > ul > li > button{
