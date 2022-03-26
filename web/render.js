@@ -1,11 +1,17 @@
-import Acasa from "./Pages/Acasa/Acasa.js"
-import Curse from "./Pages/Curse/Curse.js";
-import AdaugaBani from "./Pages/AdaugaBani/AdaugaBani.js";
-import About from "./Pages/About/About.js";
+import buildHome from "./Pages/Acasa/Acasa.js"
+import buildRace from "./Pages/Curse/Curse.js";
+import buildMoney from "./Pages/AdaugaBani/AdaugaBani.js";
+import buildAbout from "./Pages/About/About.js";
+import * as Utils from "./Pages/Utils/SwitchPageUtils.js";
 
-import * as Utils from "./Pages/Utils/SwitchPageUtils.js"
-
-const pageArr = [[0, Acasa], [1, Curse], [2, AdaugaBani], [3, About]];
-export const pageMap = new Map(pageArr);
+let pageArr=[];
+var pageMap;
+export function getPages(){
+    pageArr = [[0, buildHome()], [1, buildRace()], [2, buildMoney()], [3, buildAbout()]];
+    pageMap = new Map(pageArr);
+}
+getPages();
 
 Utils.changePage(0);
+
+export {pageMap};
