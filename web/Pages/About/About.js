@@ -14,11 +14,13 @@ const Article =`
 </article>
 `
 
-const aboutHTML = 
-Header +
-Navbar +
-Article +
-Footer;
-;
-
-export default aboutHTML;
+var aboutHTML = '';
+export default function buildAbout(){
+    aboutHTML=
+    Header +
+    Navbar +
+    Article +
+    Footer;
+    return aboutHTML;
+}
+buildAbout();

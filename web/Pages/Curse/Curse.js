@@ -11,10 +11,13 @@ const Article = `
 </article>
 `;
 
-const curseHTML = 
-Header +
-Navbar +
-Article +
-Footer;
-
-export default curseHTML;
+var curseHTML='';
+export default function buildRace(){
+    curseHTML = 
+    Header +
+    Navbar +
+    Article +
+    Footer;
+    return curseHTML;
+}
+buildRace();

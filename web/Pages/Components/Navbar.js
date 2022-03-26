@@ -1,5 +1,6 @@
 import * as Utils from "../Utils/SwitchPageUtils.js"
 window.changePage=Utils.changePage;
+
 //define the modal
 let navigation=`
     <nav>

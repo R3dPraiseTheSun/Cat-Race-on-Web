@@ -1,62 +1,100 @@
-import socket
-import multiprocessing
-from threading import Thread
+import base64
+from socketserver import ThreadingMixIn
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+import json
 
-def task():
-	request = connection.recv(1024).decode('utf-8')
-	string_list = request.split(' ')     # Split request from spaces
+import database.database as dbFuncs
 
-	method = string_list[0]
-	requesting_file = string_list[1]
+dbFuncs.create_connection(r"database\user_records.db")
+dbFuncs.create_table()
 
-	print('Client request ',requesting_file)
+class ThreadingServer(ThreadingMixIn, HTTPServer):
+    pass
 
-	myfile = requesting_file.split('?')[0] # After the "?" symbol not relevent here
-	myfile = myfile.lstrip('/')
-	if(myfile == 'web/' or myfile == ''):
-		myfile = 'web/index.html'    # Load index file as default
+def encodePass(password):
+	password = password.encode('utf-8')
+	password = base64.b64encode(password)
+	return password
 
-	try:
-		file = open(myfile,'rb') # open file , r => read , b => byte format
-		response = file.read()
-		file.close()
+class RequestHandler(SimpleHTTPRequestHandler):
+	def do_GET(self):
+		myfile = self.path.split('?')[0] # After the "?" symbol not relevent here
+		myfile = myfile.lstrip('/')
+		print("My File is: ",myfile)
+		if(myfile == 'web/' or myfile == ''):
+			myfile = 'web/index.html'    # Load index file as default
 
-		header = 'HTTP/1.1 200 OK\n'
+		try:
+			file = open(myfile,'rb') # open file , r => read , b => byte format
+			response = file.read()
+			file.close()
 
-		if(myfile.endswith(".jpg")):
-			mimetype = 'image/jpg'
-		elif(myfile.endswith(".css")):
-			mimetype = 'text/css'
-		elif(myfile.endswith(".js")):
-			mimetype = 'application/javascript'
-		else:
-			mimetype = 'text/html'
+			header = 'HTTP/1.1 200 OK\n'
 
-		header += 'Content-Type: '+str(mimetype)+'\n\n'
+			if(myfile.endswith(".jpg")):
+				mimetype = 'image/jpg'
+			elif(myfile.endswith(".css")):
+				mimetype = 'text/css'
+			elif(myfile.endswith(".js")):
+				mimetype = 'application/javascript'
+			elif(myfile.endswith(".json")):
+				mimetype = 'application/json'
+			elif(myfile.endswith(".py")):
+				mimetype = 'application/python'
+			else:
+				mimetype = 'text/html'
 
-	except Exception as e:
-		header = 'HTTP/1.1 404 Not Found\n\n'
-		response = '<html><body><center><h3>Error 404: File not found</h3><p>Python HTTP Server</p></center></body></html>'.encode('utf-8')
+			header += 'Content-Type: '+str(mimetype)+'\n\n'
 
-	final_response = header.encode('utf-8')
-	final_response += response
-	connection.send(final_response)
-	connection.close()
+		except Exception as e:
+			header = 'HTTP/1.1 404 Not Found\n\n'
+			response = '<html><body><center><h3>Error 404: File not found</h3><p>Python HTTP Server</p></center></body></html>'.encode('utf-8')
 
-HOST,PORT = '192.168.0.107',80
+		self.send_response(200)
+		self.send_header('Content-type', str(mimetype))
+		self.send_header('Content-length', len(response))
+		self.end_headers()
+		self.wfile.write(response)
 
-my_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-my_socket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-my_socket.bind((HOST,PORT))
-my_socket.listen(1)
+	def do_POST(self):
+		print(self.path)
+		self.data = self.rfile.read(int(self.headers['Content-Length'])).decode('utf-8')
+		print(self.data)
 
-print('Serving on port ',PORT)
+		if all(words in self.data for words in ["user","email","password"]):
+			user = self.data.split('&')[0][self.data.split('&')[0].index('user')+5:]
+			email = self.data.split('&')[1][self.data.split('&')[1].index('email')+6:]
+			password = self.data.split('&')[2][self.data.split('&')[2].index('password')+9:]
 
-while True:
-	connection,address = my_socket.accept()
-	threads = [Thread(target=task)]
-	for thread in threads:
-		thread.start()
-	for thread in threads:
-		thread.join()
-	
+			print("Register: ",user, email, password)
+			dbFuncs.insert_record(user, email,encodePass(password))
+
+		if all(words in self.data for words in ["email","password"]):
+			email = self.data.split('&')[0][self.data.split('&')[0].index('email')+6:]
+			password = self.data.split('&')[1][self.data.split('&')[1].index('password')+9:]
+			if(not dbFuncs.check_records(email,encodePass(password))): 
+				print("Failed login detected!")
+				self.send_response(404)
+			else: 
+				user = dbFuncs.check_records(email,encodePass(password))
+				print("welcome ", user)
+				data = {
+					"user" : user,
+				}
+				json_string = json.dumps(data).encode('utf-8')
+
+				self.send_response(200)
+				self.send_header(
+					'Content-type',
+					'application/json'
+				)
+				self.end_headers()
+				self.wfile.write(json_string)
+
+
+
+try:
+	ThreadingServer(('192.168.0.107', 80), RequestHandler).serve_forever()
+except KeyboardInterrupt:
+	print('KeyboardInterrupt')
+	exit()

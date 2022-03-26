@@ -1,9 +1,6 @@
-import * as LoginFunc from "../Components/Login.js";
 import {Navbar} from "../Components/Navbar.js"
 import {Header} from "../Components/Header.js"
 import {Footer} from "../Components/Footer.js"
-window.showModal = LoginFunc.showModal;
-
 
 const Article = `
 <article>
@@ -13,10 +10,13 @@ const Article = `
 </div>
 </article>`;
 
-const acasaHTML = 
-Header +
-Navbar +
-Article +
-Footer;
-
-export default acasaHTML;
+var acasaHTML = '';
+export default function buildHome(){
+    acasaHTML = 
+    Header +
+    Navbar +
+    Article +
+    Footer;
+    return acasaHTML;
+}
+buildHome();

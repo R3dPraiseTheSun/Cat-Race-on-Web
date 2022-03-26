@@ -1,4 +1,4 @@
-import  {pageMap}  from "../../render.js";
+import  * as render from "../../render.js";
 
 let baseURL = document.URL;
 baseURL = baseURL.split('#')[0];
@@ -12,6 +12,7 @@ function processURL(response, urlPath){
 }
 
 export function changePage(number){ 
+    render.getPages();
     var title;
     var urlPath;
     pageNUmber = number;
@@ -38,7 +39,7 @@ export function changePage(number){
             urlPath = '#nuuuu mai avem';
     }
     let response = {
-        html: pageMap.get(number),
+        html: render.pageMap.get(number),
         title: title
     };
     processURL(response, urlPath);

@@ -11,10 +11,13 @@ const Article = `
 </article>
 `;
 
-const adaugabaniHTML = 
-Header +
-Navbar +
-Article +
-Footer;
-
-export default adaugabaniHTML;
+var adaugabaniHTML = '';
+export default function buildMoney(){
+    adaugabaniHTML=
+    Header +
+    Navbar +
+    Article +
+    Footer;
+    return adaugabaniHTML;
+}
+buildMoney();
