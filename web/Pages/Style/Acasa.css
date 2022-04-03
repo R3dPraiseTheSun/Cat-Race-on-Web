@@ -1,0 +1,109 @@
+#funnyCat {
+    height: 150px;
+    width: 25%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    float: left;
+    border: 1px white solid;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+}
+#funnyCat > img{
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+}
+nav{
+    height: 5%;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), 90% , rgba(255, 255, 255, 0.425));
+    text-align: center;
+    font-size: medium;
+    padding: 0;
+    border-width: 0 0 6px 0;
+    border-style: solid;
+    background-color: rgb(102, 18, 18);
+}
+nav > ul {
+    right: 0;
+    position: absolute;
+    color: chocolate;
+    margin:0;
+    padding: 0;
+    height: 22%;
+    width: 75%;
+}
+nav > ul > li{
+    list-style-type: none;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    height: inherit;
+    width: 24.6%;
+}
+nav > ul > li > button{
+    border-width: 3px;
+    border-color: white;
+    background-color: antiquewhite;
+}
+nav > ul > li:not(:first-child):not(:last-child) > button{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgb(0, 0, 0), 85%, rgb(255, 255, 255));
+    color: white;
+    margin: 0;
+}
+nav > ul > li:first-child > button{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgb(0, 0, 0), 85%, rgb(255, 255, 255));
+    color: white;
+    margin: 0;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0; 
+}
+nav > ul > li:last-child > button{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgb(0, 0, 0), 85%, rgb(255, 255, 255));
+    color: white;
+    margin: 0;
+    border-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0; 
+}
+
+article{
+    background: white;
+}
+article > #column {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    height: 100%;
+}
+article > #column:first-child{
+    padding: 0 20px;
+    width: 45%;
+    left: 0;
+    float: left;
+}
+article > #column:last-child{
+    padding: 0 20px;
+    width: 45%;
+    right: 0;
+    float: right;
+}
+#winnerCat{
+    width: auto;
+    height: 45%;
+}
+#moneyCat{
+    width: auto;
+    height: 30%;
+}
+#trackCat{
+    width: auto;
+    height: 50%;
+}
