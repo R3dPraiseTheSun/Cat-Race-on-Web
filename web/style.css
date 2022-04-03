@@ -131,7 +131,7 @@ nav > ul > li:last-child > button{
     border-top-left-radius: 0; 
 }
 article{
-    height:70%;
+    height:75%;
 }
 article > div{
     height: 100%;
@@ -148,6 +148,7 @@ footer{
     font-size: small;
     text-align: center;
     vertical-align: middle;
+    position: relative;
 }
 footer > div{
     height: 100%;
@@ -185,3 +186,7 @@ footer > div{
     text-align: center;
     vertical-align: middle;
 }
+
+@import url(./Pages/Style/Acasa.css);
+@import url(./Pages/Style/About.css);
+@import url(./Pages/Style/AdaugaBani.css);
