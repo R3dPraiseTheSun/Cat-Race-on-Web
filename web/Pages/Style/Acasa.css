@@ -1,6 +1,7 @@
 #funnyCat {
-    height: 150px;
+    height: 15%;
     width: 25%;
+    max-width: 300px;
     top: 0;
     left: 0;
     position: absolute;
@@ -15,6 +16,8 @@
 }
 nav{
     height: 5%;
+    min-height: 2%;
+    max-height: 5%;
     background: linear-gradient(rgba(0, 0, 0, 0.8), 90% , rgba(255, 255, 255, 0.425));
     text-align: center;
     font-size: medium;
@@ -74,7 +77,11 @@ nav > ul > li:last-child > button{
 }
 
 article{
+    height: 100%;
+    min-height: 80%;
+    max-height: 100%;
     background: white;
+    display: block;
 }
 article > #column {
     height: 100%;
@@ -82,6 +89,7 @@ article > #column {
     position: relative;
     display: inline-block;
     height: 100%;
+    min-width: 45%;
 }
 article > #column:first-child{
     padding: 0 20px;
@@ -95,15 +103,16 @@ article > #column:last-child{
     right: 0;
     float: right;
 }
+
 #winnerCat{
-    width: auto;
-    height: 45%;
+    max-width: 75%;
+    max-height: 75%;
 }
 #moneyCat{
-    width: auto;
-    height: 30%;
+    max-width: 80%;
+    max-height: 40%;
 }
 #trackCat{
-    width: auto;
-    height: 50%;
+    max-width: 90%;
+    max-height: 50%;
 }

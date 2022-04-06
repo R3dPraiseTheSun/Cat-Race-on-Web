@@ -94,7 +94,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
 
 try:
-	ThreadingServer(('00.00.00.00', 80), RequestHandler).serve_forever()
+	ThreadingServer(('127.0.0.1', 80), RequestHandler).serve_forever()
 except KeyboardInterrupt:
 	print('KeyboardInterrupt')
 	exit()
