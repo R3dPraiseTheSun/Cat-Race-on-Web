@@ -1,6 +1,6 @@
 import buildHome from "./Pages/Acasa/Acasa.js"
 import buildRace from "./Pages/Curse/Curse.js";
-import buildMoney from "./Pages/AdaugaBani/AdaugaBani.js";
+import buildMoney from "./Pages/Financiar/Financiar.js";
 import buildAbout from "./Pages/About/About.js";
 import * as Utils from "./Pages/Utils/SwitchPageUtils.js";
 
