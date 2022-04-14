@@ -1,12 +1,17 @@
 html{
-    height: 100%;
+    min-height: 100%;
+    height: max-content;
     width: 100%;
+    background: url("https://as2.ftcdn.net/v2/jpg/02/09/01/53/1000_F_209015311_Ww9DUiSLRZUQnRYJcolFZ88CD0mczRpM.jpg"), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172)), center;
 }
 body{
+    backdrop-filter: blur(10px);
+}
+#root{
     height: 100%;
-    width: 100%;
-    margin: auto;
-    background: url("https://as2.ftcdn.net/v2/jpg/02/09/01/53/1000_F_209015311_Ww9DUiSLRZUQnRYJcolFZ88CD0mczRpM.jpg") center;
+    margin: 0 10%;
+    padding: 10px 0 0 ;
+    background: rgba(54, 57, 63, 0.95);
 }
 button{
     background: inherit;
@@ -32,10 +37,8 @@ header {
 header > .title{
     height: 10%;
     max-height: 5%;
-    width: 100%;
     font-size: large;
     display: inline-flex;
-    position: absolute;
     align-items: center;
     justify-content: center;
 }
@@ -46,7 +49,6 @@ header > .title > h1{
     -webkit-text-fill-color: transparent;
 }
 header > .account-buttons,.account-name{
-    width: 100%;
     color: rgb(73, 73, 92);
     font-size: medium;
     display: inline-flex;
@@ -90,7 +92,6 @@ nav > ul {
     margin:0;
     padding: 0;
     height: 100%;
-    width: 100%;
 }
 nav > ul > li{
     list-style-type: none;
@@ -152,14 +153,12 @@ footer{
     font-size: small;
     text-align: center;
     vertical-align: middle;
-    position: relative;
 }
 footer > div{
     height: 100%;
     display: inline-block;
 }
 #loginModal,#registerModal{
-    position: absolute;
     top: 0;
     left: 0;
     margin: auto;
@@ -168,7 +167,6 @@ footer > div{
     background:linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8));
 }
 #loginModal>#login,#registerModal>#register{
-    position: absolute;
     top: 30%;
     left: 30%;
     margin: auto;
