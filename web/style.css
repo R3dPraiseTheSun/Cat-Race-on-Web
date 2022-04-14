@@ -1,4 +1,6 @@
 html{
+    margin: 0;
+    padding: 0;
     background: url("https://as2.ftcdn.net/v2/jpg/02/09/01/53/1000_F_209015311_Ww9DUiSLRZUQnRYJcolFZ88CD0mczRpM.jpg") center;
 }
 body{
@@ -15,14 +17,21 @@ header{
     color: white;
     font-size: large;
     text-align: center;
-    padding-bottom: 3%;
 }
 nav{
     margin: 0 10%;
     background-color: black;
 }
+nav > button{
+    padding: 2% 2% 0.5% 2%;
+    border: 0;
+    background-color: black;
+}
 article{
-    min-height: 900px;
+    height: 100%;
+}
+article > div {
+    height: 100vh;
 }
 footer{
     margin: 0 10%;
@@ -35,9 +44,9 @@ footer{
 p, h1{
     margin: 0;
 }
-img{
+#logoCat{
     width: 75px;
-    padding: 2%;
+    padding-bottom: 0;
 }
 .account-buttons{
     margin-right: 10%;
@@ -48,9 +57,41 @@ img{
     background-color: black;
     color: white;
     border: 1px rgba(29, 31, 34, 0.90) solid;
-    padding: 10px;
+    padding: 20px;
 }
+
+.account-buttons > p > button:hover{
+    background-color: rgba(29, 31, 34, 0.90);
+}
+
 .title{
     display: block;
     justify-content: center;
+}
+
+ul{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+li{
+    width: 100%;
+}
+
+ul, li{
+    display: inline-flex;
+}
+
+li > button{
+    width: 100%;
+    font-size: larger;
+    background-color: black;
+    color: white;
+    border: 1px rgba(29, 31, 34, 0.90) solid;
+    padding: 10px;
+}
+
+li > button:hover{
+    background-color: rgba(29, 31, 34, 0.90);
 }
