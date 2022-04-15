@@ -9,11 +9,11 @@ const Article = `
 <article>
     <div id=financiar>
     <h1>Balanta</h1>
-    <p> Disponibil: `+balance+`<img id = "chips" src="`+resourcePath+`chips.png "/></p>
+    <div><p>Disponibil: `+balance+`<img id = "chips" src="`+resourcePath+`chips.png "/></p></div>
     </div>
     <div id=financiar>
     <h1>Adauga Bani</h1>
-    <label>Introdu suma <input type="number" min="0"/><img id = "cash" src="`+resourcePath+`cash.png "/></label>
+    <div><label>Introdu suma <input type="number" min="0"/></label><img id = "cash" src="`+resourcePath+`cash.png "/></div>
     </div>
     <div id=financiar>
     <h1>Istoric curse</h1>

@@ -56,7 +56,7 @@ li > button{
 }
 article{
     min-height: 70vh;
-    padding-top: 5vh;
+    padding-top: 2%;
 }
 footer{
     margin: 0 10%;
@@ -110,7 +110,7 @@ button:hover{
 /*CURSE*/
 
 #meniuPisici{
-    padding: 5%;
+    padding: 3%;
     height: 60vh;
 }
 #statistici{
@@ -175,8 +175,88 @@ button:hover{
     box-shadow: 1px 1px 5px white inset;
 }
 
-/*ABOUT*/
+/*Curse Racing State*/
+#racingPanel{
+    color: white;
+    background: black;
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+}
+#racingPanel > h1{
+    height: 10%;
+    text-align: center;
+    border-bottom: 3px white solid;
+    padding-top: 1%;
+}
+#racingPanel > div{
+    text-align: center;
+    padding-top: 5%;
+    width: 100%;
+}
+#racingPanel > div > img{
+    width: 90%;
+    padding: 1%;
+    aspect-ratio: 2.4;
+}
 
+/*Cat statistics*/
+
+#catStatistics{
+    position: absolute;
+    height: 20vh;
+    width: 20vw;
+    background-color: white;
+    border: 1px white solid;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+#catStatistics > h1{
+    height: 20%;
+    -webkit-text-stroke: 1px rgba(29, 31, 34, 0);
+    font-size: 2vw;
+    border-bottom: 1px white solid;
+}
+#catStatistics > #lastRaces{
+    left: 0;
+    position: absolute;
+    width: 50%;
+    height: 80%;
+    border-right: 1px white solid;
+    display: inline-grid;
+}
+#catStatistics > #lastRaces > .win , .lose{
+    width: 100%;
+    border-bottom: 1px white solid;
+}
+#catStatistics > #lastRaces > .win{
+    background-color: darkgreen;
+}
+#catStatistics > #lastRaces > .lose{
+    background-color: darkred;
+}
+#catStatistics > #avgPerformance{
+    right: 0;
+    position: absolute;
+    width: 50%;
+    height: 80%;
+    border-left: 1px white solid;
+}
+#catStatistics > #avgPerformance > h3, p{
+    padding: 2px;
+}
+#catStatistics > #circle{
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/*ABOUT*/
 #about{
     font-size: medium;
     color: white;
@@ -184,11 +264,9 @@ button:hover{
     background-color: black;
     margin: 0 5%;
     padding: 10px;    
-    height: fit-content;
+height: fit-content;
 }
-
 /*Financiar*/
-
 #financiar{
     font-size: large;
     color: white;
@@ -198,15 +276,32 @@ button:hover{
     padding: 2%;    
     height: fit-content;
 }
-
 #chips{
     width: 28px;
-    height: 16px;
     margin-left: 4px;
 }
-
 #cash{
     width: 28px;
-    height: 30px;
     margin-left: 4px;
+    display: inline-flex;
+    position: absolute;
+}
+
+/*finish state*/
+#finish{
+    position: absolute;
+    top: calc(50% - 500px / 2);
+    left: calc(50% - 500px / 2);
+    width: 500px;
+    height: 500px;
+
+    border:1px white solid;
+    border-radius: 50px;
+}
+#finish > div{
+    color: white;
+    font-size: 64px;
+    padding-top: calc(50% - 64px);
+    text-align: center;
+    vertical-align: middle;
 }

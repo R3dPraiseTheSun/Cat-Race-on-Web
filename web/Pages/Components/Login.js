@@ -1,4 +1,4 @@
-import {Header, updateHeader} from "../Components/Header.js"
+import {Header, updateHeader} from "../Components/Header.js";
 import * as Utils from "../Utils/SwitchPageUtils.js";
 
 
