@@ -135,7 +135,7 @@ button:hover{
 #suma{
     text-align: center;
     background-color: black;
-    padding: 2% 0;
+    padding: 10px 0;
 }
 .pisica{
     margin: 5px 15px;
@@ -183,7 +183,7 @@ button:hover{
     text-align: left;
     background-color: black;
     margin: 0 5%;
-    padding: 5%;    
+    padding: 10px;    
     height: fit-content;
 }
 
@@ -197,4 +197,16 @@ button:hover{
     margin: 0% 5% 5% 5%;
     padding: 2%;    
     height: fit-content;
+}
+
+#chips{
+    width: 28px;
+    height: 16px;
+    margin-left: 4px;
+}
+
+#cash{
+    width: 28px;
+    height: 30px;
+    margin-left: 4px;
 }

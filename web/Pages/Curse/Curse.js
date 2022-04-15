@@ -38,7 +38,7 @@ const Article = `
     <div id="bet">
         <div id="suma">
             <form>
-                <label>Introdu suma <input type="number"/></label>
+                <label>Introdu suma <input type="number" min="0"/><img id = "chips" src="`+resourcePath+`chips.png "/></label>
                 <input type="submit" value="Confirma"/>
             </form>
         </div>
