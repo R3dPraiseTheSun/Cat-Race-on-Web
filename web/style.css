@@ -21,8 +21,8 @@ header{
     background: linear-gradient(rgba(255,255,255,0.2), black);
     color: black;
     font-family: 'Niconne', Arial;
-    -webkit-text-stroke: 1px white;
-    font-size: 36px;
+    -webkit-text-stroke: 0.2px white;
+    font-size: 2.5vw;
     text-align: center;
     height: 10vh;
 }
@@ -31,7 +31,7 @@ header{
     padding: 2%;
 }
 nav{
-    max-height: 10vh;
+    height: fit-content;
     background-color: black;
 }
 nav > button{
@@ -113,7 +113,8 @@ button:hover{
     height: 60vh;
 }
 #statistici{
-    max-height: 40vh;
+    height: fit-content;
+    max-height: 60vh;
     overflow: auto hidden;
     margin-bottom: 2%;
     border: 2px black solid;
@@ -137,6 +138,7 @@ button:hover{
 }
 .pisica{
     margin: 5px 15px;
+    height: 100%;
     padding: 10px;
     width: 20vw;
     display: inline-block;
