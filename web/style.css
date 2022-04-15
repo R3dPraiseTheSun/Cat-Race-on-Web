@@ -1,196 +1,307 @@
+
 html{
-    height: 100%;
-    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: url("https://as2.ftcdn.net/v2/jpg/02/09/01/53/1000_F_209015311_Ww9DUiSLRZUQnRYJcolFZ88CD0mczRpM.jpg") fixed;
+    overflow-x: hidden;
 }
 body{
+    margin: 0;
+    padding: 0;
+    backdrop-filter: brightness(0.2);
+    min-height: 100vh;
+}
+body header,nav,article,footer{
+    margin: 0 10%;
+}
+#root > :not(header,footer, nav){
+    background: rgba(29, 31, 34, 0.90);
+}
+header{
+    background: linear-gradient(rgba(255,255,255,0.2), black);
+    color: black;
+    font-family: 'Niconne', Arial;
+    -webkit-text-stroke: 0.2px white;
+    font-size: 2.5vw;
+    text-align: center;
+    height: 10vh;
+}
+.title {
     height: 100%;
-    width: 100%;
-    margin: auto;
-    background: url("https://as2.ftcdn.net/v2/jpg/02/09/01/53/1000_F_209015311_Ww9DUiSLRZUQnRYJcolFZ88CD0mczRpM.jpg") center;
-}
-button{
-    background: inherit;
-	color: inherit;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-    margin: 3px 5px;
-}
-button:hover{
-    transform: scale(1.05);
-}
-header {
-    height: 10%;
-    max-height: 8%;
-    margin: 0;
-    border-radius: 12px 12px 0 0;
-    background: rgba(0, 0, 0, 0.8);
-    border-width: 0 0 4px 0;
-    border-style: solid;
-}
-header > .title{
-    height: 10%;
-    max-height: 5%;
-    width: 100%;
-    font-size: large;
-    display: inline-flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-}
-header > .title > h1{
-    -webkit-text-stroke: 1px rgb(255, 255, 255);
-    background: linear-gradient(rgb(255, 255, 255), rgb(39, 11, 11));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-header > .account-buttons,.account-name{
-    width: 100%;
-    color: rgb(73, 73, 92);
-    font-size: medium;
-    display: inline-flex;
-    justify-content: end;
-    align-items: center;
-}
-
-.account-buttons > p > button{
-    background: linear-gradient(black, 85%, white);
-    color: white;
-    padding: 12px;
-    border: 1px;
-    border-radius: 10px;
-    margin: 0;
-}
-
-.account-buttons > #login > button{
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: 1px;
-    border-style: solid;
-}
-.account-buttons > #signup > button{
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: 1px;
-    border-style: solid;
+    padding: 2%;
 }
 nav{
-    height: 10%;
-    
-    background: linear-gradient(rgba(0, 0, 0, 0.8), 90% , rgba(255, 255, 255, 0.425));
-    text-align: center;
-    font-size: medium;
+    height: fit-content;
+    background-color: black;
+}
+nav > button{
+    border: 0;
+    border-radius: 100%;
+    padding: 10px;
+    background-color: black;
+    display: inline-flex;
+    font-size: 90%;
+}
+nav > ul , ul > li{
+    width: 100%;
     padding: 0;
-    border-width: 0 0 6px 0;
-    border-style: solid;
-}
-nav > ul {
-    color: chocolate;
-    margin:0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-}
-nav > ul > li{
-    list-style-type: none;
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    height: inherit;
-    width: 10%;
-    max-width: 24%;
-}
-nav > ul > li > button{
-    border-width: 3px;
-    border-color: white;
-    background-color: antiquewhite;
-}
-nav > ul > li:not(:first-child):not(:last-child) > button{
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgb(0, 0, 0), 85%, rgb(255, 255, 255));
-    color: white;
     margin: 0;
+    display: inline-flex;
 }
-nav > ul > li:first-child > button{
+li > button{
     width: 100%;
-    height: 100%;
-    background: linear-gradient(rgb(0, 0, 0), 85%, rgb(255, 255, 255));
-    color: white;
-    margin: 0;
-    border-radius: 10px;
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0; 
 }
-nav > ul > li:last-child > button{
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgb(0, 0, 0), 85%, rgb(255, 255, 255));
-    color: white;
-    margin: 0;
-    border-radius: 10px;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0; 
+#logoCat{
+    height: 5vw;
 }
 article{
-    height: 100%;
-    min-height: 80%;
-}
-article > div{
-    height: 100%;
-}
-img{
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+    min-height: 70vh;
+    padding-top: 2%;
 }
 footer{
-    height: 5%;
+    margin: 0 10%;
+    font-size: large;
+    text-align: center;
+    color: aliceblue;
+    background-color: black;
+    max-height: 5vh;
+}
+p, h1{
+    margin: 0;
+}
+button{
+    cursor: pointer;
     background-color: black;
     color: white;
-    font-size: small;
-    text-align: center;
-    vertical-align: middle;
-    position: relative;
+    border: 1px rgba(29, 31, 34, 0.90) solid;
+    padding: 20px;
 }
-footer > div{
-    height: 100%;
-    display: inline-block;
+button:hover{
+    background: linear-gradient(rgba(29, 31, 34, 0.90), black);
 }
+.account-buttons{
+    display: flex;
+    float: right;
+}
+
+.title{
+    display: block;
+    justify-content: center;
+}
+
 #loginModal,#registerModal{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 4.7%;
+    right: 0;
     margin: auto;
-    width: 100%;
-    height: 100%;
-    background:linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8));
-}
-#loginModal>#login,#registerModal>#register{
-    position: absolute;
-    top: 30%;
-    left: 30%;
-    margin: auto;
-    width: 40%;
-    height: 40%;
-
     background: url("https://t3.ftcdn.net/jpg/03/55/60/70/360_F_355607062_zYMS8jaz4SfoykpWz5oViRVKL32IabTP.jpg");
     border-radius: 5%;
     border: 2px solid black;
+    width: 30%;
 }
 
-#root{
-    width: 100%;
-    height: 100%;
+#loginModal>#login,#registerModal>#register{
+    margin: auto;
+    width: 50%;
+    height: 40%;
 }
-.account-name > p{
-    font-size: large;
+
+
+/*CURSE*/
+
+#meniuPisici{
+    padding: 3%;
+    height: 60vh;
+}
+#statistici{
+    height: fit-content;
+    max-height: 60vh;
+    overflow: auto hidden;
+    margin-bottom: 2%;
+    border: 2px black solid;
+    box-shadow: 0px 0px 20px black;
+}
+#scrollableArea{
+    height: 100%;
+    white-space: nowrap; 
+    width: fit-content;
+    background: linear-gradient(rgba(29, 31, 34, 0), rgba(0,0,0,0.76));
+}
+#bet{
+    height: 10vh;
+    font-size: x-large;
+    color: white;
+}
+#suma{
+    text-align: center;
+    background-color: black;
+    padding: 10px 0;
+}
+.pisica{
+    margin: 5px 15px;
+    height: 100%;
+    padding: 10px;
+    width: 20vw;
+    display: inline-block;
+    background-color: black;
+    text-align: center;
+}
+.pisica > h1{
+    width: 100%;
+    margin-bottom: 20px;
     color: azure;
+}
+.pisica > img{
+    width: 100%;
+    background-color: black;
+    margin-bottom: 10%;
+}
+.pisica > button{
+    display: block;
+    margin: auto;
+}
+#suma > form > input, label > input{
+    background-color: black;
+    color: white;
+    border: 1px rgba(29, 31, 34, 0.90) solid;
+    padding: 20px;
+}
+#suma > form > input:hover{
+    background-color: rgba(29, 31, 34, 0.90);
+}
+#suma > form > label > input{
+    background: linear-gradient(rgba(29, 31, 34, 0), rgba(0,0,0,0.76));
+    border: 1px white solid;
+    box-shadow: 1px 1px 5px white inset;
+}
+
+/*Curse Racing State*/
+#racingPanel{
+    color: white;
+    background: black;
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+}
+#racingPanel > h1{
+    height: 10%;
+    text-align: center;
+    border-bottom: 3px white solid;
+    padding-top: 1%;
+}
+#racingPanel > div{
+    text-align: center;
+    padding-top: 5%;
+    width: 100%;
+}
+#racingPanel > div > img{
+    width: 90%;
+    padding: 1%;
+    aspect-ratio: 2.4;
+}
+
+/*Cat statistics*/
+
+#catStatistics{
+    position: absolute;
+    height: 20vh;
+    width: 20vw;
+    background-color: white;
+    border: 1px white solid;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+#catStatistics > h1{
+    height: 20%;
+    -webkit-text-stroke: 1px rgba(29, 31, 34, 0);
+    font-size: 2vw;
+    border-bottom: 1px white solid;
+}
+#catStatistics > #lastRaces{
+    left: 0;
+    position: absolute;
+    width: 50%;
+    height: 80%;
+    border-right: 1px white solid;
+    display: inline-grid;
+}
+#catStatistics > #lastRaces > .win , .lose{
+    width: 100%;
+    border-bottom: 1px white solid;
+}
+#catStatistics > #lastRaces > .win{
+    background-color: darkgreen;
+}
+#catStatistics > #lastRaces > .lose{
+    background-color: darkred;
+}
+#catStatistics > #avgPerformance{
+    right: 0;
+    position: absolute;
+    width: 50%;
+    height: 80%;
+    border-left: 1px white solid;
+}
+#catStatistics > #avgPerformance > h3, p{
+    padding: 2px;
+}
+#catStatistics > #circle{
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/*ABOUT*/
+#about{
+    font-size: medium;
+    color: white;
+    text-align: left;
+    background-color: black;
+    margin: 0 5%;
+    padding: 10px;    
+height: fit-content;
+}
+/*Financiar*/
+#financiar{
+    font-size: large;
+    color: white;
+    text-align: left;
+    background-color: black;
+    margin: 0% 5% 5% 5%;
+    padding: 2%;    
+    height: fit-content;
+}
+#chips{
+    width: 28px;
+    margin-left: 4px;
+}
+#cash{
+    width: 28px;
+    margin-left: 4px;
+    display: inline-flex;
+    position: absolute;
+}
+
+/*finish state*/
+#finish{
+    position: absolute;
+    top: calc(50% - 500px / 2);
+    left: calc(50% - 500px / 2);
+    width: 500px;
+    height: 500px;
+
+    border:1px white solid;
+    border-radius: 50px;
+}
+#finish > div{
+    color: white;
+    font-size: 64px;
+    padding-top: calc(50% - 64px);
     text-align: center;
     vertical-align: middle;
 }
-
-@import url(./Pages/Style/Acasa.css);
-@import url(./Pages/Style/About.css);
-@import url(./Pages/Style/AdaugaBani.css);

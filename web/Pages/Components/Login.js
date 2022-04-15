@@ -1,4 +1,4 @@
-import {Header, updateHeader} from "../Components/Header.js"
+import {Header, updateHeader} from "../Components/Header.js";
 import * as Utils from "../Utils/SwitchPageUtils.js";
 
 
@@ -10,7 +10,6 @@ var modalShowing = false;
 let login=`
 <div id="login">
     <div>
-        <h2>Login with you own (personal) account purrr!</h2>
         <form name="login" id="loginForm" method="post">
             <div>
                 <p><label for="luser">User:</label></p>

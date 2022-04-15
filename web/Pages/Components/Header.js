@@ -1,3 +1,4 @@
+//Header.js
 import * as LoginFunc from "../Components/Login.js";
 import * as RegisterFunc from "../Components/Signup.js";
 
@@ -11,10 +12,6 @@ function updateHeader(){
     <header>
         <div class="title">
             <h1>Welcome to Catbet Casino!</h1>
-        </div>
-        <div class="account-buttons">
-            <p id="login"><button onclick="window.showModalL()" id="loginBtn">Log in</button></p>
-            <p id="signup"><button onclick="window.showModalR()" id="signupBtn">Sign up</button></p>
         </div>
     </header>`;
     else
@@ -31,3 +28,4 @@ function updateHeader(){
 updateHeader()
 
 export {Header, updateHeader};
+
