@@ -178,11 +178,23 @@ button:hover{
 /*ABOUT*/
 
 #about{
-    height: auto;
     font-size: medium;
     color: white;
     text-align: left;
     background-color: black;
-    margin: 5%;
-    padding: 2%;
+    margin: 0 5%;
+    padding: 5%;    
+    height: fit-content;
+}
+
+/*Financiar*/
+
+#financiar{
+    font-size: large;
+    color: white;
+    text-align: left;
+    background-color: black;
+    margin: 0% 5% 5% 5%;
+    padding: 2%;    
+    height: fit-content;
 }
