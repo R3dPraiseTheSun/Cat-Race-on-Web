@@ -55,8 +55,7 @@ li > button{
     height: 5vw;
 }
 article{
-    min-height: 70vh;
-    padding-top: 2%;
+    padding: 2% 0;
 }
 footer{
     margin: 0 10%;
@@ -111,10 +110,8 @@ button:hover{
 
 #meniuPisici{
     padding: 3%;
-    height: 60vh;
 }
 #statistici{
-    height: fit-content;
     max-height: 60vh;
     overflow: auto hidden;
     margin-bottom: 2%;
@@ -128,7 +125,6 @@ button:hover{
     background: linear-gradient(rgba(29, 31, 34, 0), rgba(0,0,0,0.76));
 }
 #bet{
-    height: 10vh;
     font-size: x-large;
     color: white;
 }
@@ -267,12 +263,21 @@ button:hover{
 height: fit-content;
 }
 /*Financiar*/
-#financiar{
+#financiar:not(#financiar:last-child){
     font-size: large;
     color: white;
     text-align: left;
     background-color: black;
     margin: 0% 5% 5% 5%;
+    padding: 2%;    
+    height: fit-content;
+}
+#financiar:last-child{
+    font-size: large;
+    color: white;
+    text-align: left;
+    background-color: black;
+    margin: 0% 5%;
     padding: 2%;    
     height: fit-content;
 }
