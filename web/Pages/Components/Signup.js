@@ -4,7 +4,6 @@ var modalShowing = false;
 let register=`
 <div id="register">
     <div>
-        <h2>Register your own (personal) account purrr!</h2>
         <form name="register" id="registerForm" method="post">
             <div>
                 <p><label for="user">User:</label></p>
