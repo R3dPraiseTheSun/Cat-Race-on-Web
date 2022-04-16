@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #cuprins ol {
+              counter-reset: item;
+            }
+            #cuprins li {
+              display: block;
+              color: #666666;
+            }
+            #cuprins li:before {
+              content: counters(item, ".") " ";
+              counter-increment: item;
+            }
+          </style>
+    </head>
+    <div id="cuprins">
+        <ol>
+            <li><a href="#introducere">Introducere</a>
+                <ol>
+                    <li><a href="#autori">autori</a></li>
+                    <li><a href="#cerinta">cerinta</a></li>
+                    <li><a href="#audientascop">audienta si scop</a></li>
+                </ol>
+            </li>
+            <li><a href="#descriere">Descriere</a>
+                <ol>
+                    <li><a href="#structura">structura website-ului</a>
+                        <ol>
+                            <li><a href="#frontend">frontend</a></li>
+                            <li><a href="#backend">backend</a></li>
+                        </ol>
+                    </li>
+                    <li><a href="#functionabilitate">functionabilitate</a></li>
+                </ol>
+            </li>
+            <li><a href="#interfata">Interfata</a>
+                <ol>
+                    <li><a href="#bazadate">baze de date</a></li>
+                    <li><a href="#server">descrierea serverului</a></li>
+                    <li><a href="#gui">motivatie GUI</a></li>
+                    <li><a href="#css">structura CSS</a></li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+    <div id="content">
+        <section id="introducere">
+            <h1>Introducere:</h1>
+            <section id="autori"><h2>Autori:</h2>
+                <p>Ionescu Paul-Andrei</p>
+                <p>Avramescu Andrei-Cosmin</p>
+            </section>
+            <section id="cerinta"><h2>Cerinta:</h2>
+                <p>Sa se implementeze o aplicatie Web oferind utilizatorilor autentificati posibilitatea realizarii de pariuri referitoare la cursele de feline. Sistemul va permite vizualizarea unui istoric al pariurilor si al rezultatelor aferente pentru fiecare concurent (pisica, motan). Se va genera, de asemenea, atat un raport -- minimal, in formatele CSV, HTML, Markdown si XML -- oferind starea actuala a pariurilor, cat si calendarul (disponibil in formatul iCalendar) despre desfasurarea curselor din viitorul apropiat. Pentru fiecare cursa, va exista un termen-limita de realizare a pariurilor. Bonus: simularea serviciului de plata electronica vizand pariurile efectuate.</p>
+            </section>
+            <section id="audientascop"><h2>Audienta si scop:</h2>
+                <p>Adulti</p>
+                <p>Entertainment</p>
+            </section>
+        </section>
+        <section id="descriere"><h1>Descriere:</h1>
+            <section id="structura"><h2>Structura Website-ului:</h2>
+                <section id="frontend"><h3>Frontend:</h3>
+                    <ol>
+                        <li>Meniul Acasa: contine descrierea paginii impreuna cu informatii generale</li>
+                        <li>
+                            <ul>Pagina Cuse: contine meniul de selectie al pisicilor si campul de introducere al sumei de chips pariate.
+                                <li>Dupa confirmarea sumei, in cadrul aceleiasi pagini se va simula cursa</li>
+                            </ul>
+                        </li>
+                        <li>Pagina Financiar: Contine soldul curent de chips al contului conectat, impreuna cu optiunea de a cumpara mai multe chips. De asemeni este prezent si istoricul curselor cat si istoricul tranzactiilor</li>
+                        <li>Pagina About: Contine informatile despre proiect(descriere, autori, profesor coordonator)</li>
+                    </ol>
+                </section>
+                <section id="backend"><h3>Backend:</h3>
+                    <ol>
+                        <li>Serverul Serveste cererile clientului prin metoda http</li>
+                        <li>
+                            <ul>Bazele de date
+                                <li>
+                                    <ul>Principale:
+                                        <li>Users</li>
+                                        <li>Pisici</li>
+                                        <li>Date generale(istorice, date calendaristice)</li>
+                                    </ul>
+                                </li>
+                                <li><ul>de Banking:<li>Informatiile individului legate de banking</li></ul></li>
+                            </ul>
+                        </li>
+                    </ol>
+                </section>
+            </section>
+            <section id="functionabilitate"><h2>Functionabilitate:</h2>
+                <ol>
+                    <li>Paginile sunt generate folosing javaScript, paginile fiind salvate in constante ce pastreaza continutul paginii, pentru fiecare pagina scriptul va da re-render la pagina cu noul continut obtinut din constanta</li>
+                    <li>Userul se va putea loga, dandu-i access la featurile site-ului(Pagina Curse + Financiar)</li>
+                    <li>
+                        <ul>In pagina curse, utilizatorul poate vedea pisiciile ce vor concura in urmatoarea cursa. 
+                            <li>Fiecare pisica are o serie de atribute ce ii vor influenta performata, ce reprezinta o medie a acestor atribute. In timpul cursei, la fiecare secunda, alaturi de atributele piscicii va mai exista un atribut random(RNG) ce va fi luat in calcul, si acesta va varia de la o secunda la alta pana la sfarsitul cursei. </li>
+                            <li>Inainte de fiecare cursa, se vor genera 5 pisici, cu atribute aleatoare, urmat de simularea a 5 curse nevazute de utizilator, rezultatele carora vor fi afisate in meniul de selectie pentru cursa urmatoare. In acest meniu se poate vedea performanta medie a pisicii selecate impreuna cu istoricul win/lose.</li>
+                            <li>
+                                <ul>Dupa selectarea pisicii dorite, utilizatorul poate introduce suma de chips dorita pentru pariere, iar o data cu confirmarea, pagina Curse se va modifica astfel incat sa arate o simulare animata a cursei la momentul inceperii ei.
+                                    <li>Dupa fiecare cursa, se va afisa un pop up cu castigul sau pierderea de chips.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul>Pagina financiar afiseaza soldul curent si istoricul tranzactiilor, informatii stocate in baza de date a utilizatorului.
+                            <li>Adaugarea de chips se va face folosing o baza de date Banking unica fiecarui utilizator</li>
+                            <li>De asemeni se va afisa istoricul curselor (Win/Lose + suma castigata/pierduta)</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+        </section>
+        <section id="interfata"><h1>Interfata:</h1>
+            <section id="bazadate"><h2>Descrierea bazei de date:</h2>
+                <ol>
+                    <li>Baza de date users: Username, Email, Password, Sold, Istoric Curse, Istoric Tranzactii</li>
+                    <li>Baza de date Pisici: Nume, Poza, Atribute de performanta, Istoric</li>
+                    <li>Baza de date Banking: Informatii standard de banking (Nume, Prenume, Numar card, cod card</li>
+                    <li>Baza de date generala: Datile urmatoarelor curse, curse anterioare (cu pisica castigatoare), si alte informatii generale sau functionale pentru server.</li>
+                </ol>
+            </section>
+            <section id="server"><h2>Descrierea serverului:</h2>
+                <ol>Medotede Get/Post 
+                    <li>Get: formularele de receive data, afisarea soldului, istorice, etc.</li>
+                    <li>Post: formularele de login, send data, bet placed, etc.</li>
+                </ol>
+            </section>
+            <section id="gui"><h2>Motivatia GUI:</h2>
+                <p>Am ales o structura simpla pentru a usura utilizarea site-ului. Butoanele sunt mari, usor de accesat, meniul home este inclus in logo-ul site-ului, fundalul este tematic pentru un casino, cromatica inchisa scoate in evidenta elementele importante(pisicile, banii, chips), de asemeni punand putin stres pe ochi </p>
+            </section>
+            <section id="css"><h2>Structura CSS:</h2>
+                <ol>Clase si ID-uri: 
+                    <li>html – contine background-ul</li>
+                    <li>body – contine filtrul aplicat peste background</li>
+                    <li>#root – pagina overall</li>
+                    <li>header – contine mesajul Welcome To Catbet Casino</li>
+                    <li> nav – contine butoanele de navigare, login/logout, sign in</li>
+                    <li>#logoCat – adaptarea imaginii logo la un format mai mic</li>
+                    <li>footer – copyright info</li>
+                    <li>button – clasa folosita pentru crearea butoanelor din site</li>
+                    <li>article – spatiul de desfasurare a contentului principal </li>
+                    <li>#loginModal – modal pop-up pentru modulul de login</li>
+                    <li>#registerModal – modal pop-up pentru modulul de register</li>
+                    <li>#catStatistics – modal pop-up pentru afisarea informatiilor despre pisici</li>
+                    <li>#meniuPisici – componenta de vizualizare pisici din pagina Curse</li>
+                    <li>#statistici – zona de display al pisicilor</li>
+                    <li>#scrollableArea – scroll pentru vizualizarea pisicilor</li>
+                    <li>#bet – componenta de betting din pagina Curse</li>
+                    <li>#suma – delimiteaza inputul pentru introducerea super pariate</li>
+                    <li>.pisica – clasa responsabila cu modificarea imaginii pisicii</li>
+                    <li>#racingPanel – modal pop up pentru simularea cursei</li>
+                    <li>#about – componenta paginii About</li>
+                    <li>#financiar – componentele paginii Financiar</li>
+                    <li>#chips -  adaptarea imaginii chips  la un format mai mic</li>
+                    <li>#cash - adaptarea imaginii cash la un format mai mic</li>
+                    <li>#finish – modal pop-up pentru afisarea unui win/lose</li>
+                    <li>#intro – zona de informatii text a paginii Acasa</li>
+                    <li>#calendar – zona designata calendarului din pagina Acasa</li>
+                </ol>
+            </section>
+        </section>
+    </div>
+</html>
