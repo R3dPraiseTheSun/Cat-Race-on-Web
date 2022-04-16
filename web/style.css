@@ -179,7 +179,7 @@ button:hover{
 #racingPanel{
     color: white;
     background: black;
-    height: 100%;
+    height: fit-content;
     width: 100%;
     border-radius: 25px;
 }
