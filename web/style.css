@@ -305,3 +305,32 @@ height: fit-content;
     text-align: center;
     vertical-align: middle;
 }
+
+/*Acasa*/
+#intro{
+    padding: 0 5%;
+}
+#intro > div > h2{
+    font-size: 2.5vw;
+    padding: 2%;
+}
+#intro > div > h3{
+    font-size: 1.7vw;
+    padding: 1.6%;
+}
+#intro > p, ol {
+    color: rgb(223, 223, 223);
+    padding: 1%;
+    font-size: 1.2vw;
+}
+#intro > div{
+    color: rgb(195, 195, 195);
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(-90grad, rgba(50, 50, 50, 0.5), rgba(17, 17, 17, 0));
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.5), 10px 10px 50px 10px rgba(255, 255, 255, 0.2);
+}
+
+#calendar{
+    padding: 50px;
+}
