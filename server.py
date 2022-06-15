@@ -1,7 +1,10 @@
 import base64
+from cmath import log
 from socketserver import ThreadingMixIn
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
+
+from numpy import blackman
 
 import database.database as dbFuncs
 
@@ -60,6 +63,40 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		print(self.path)
 		self.data = self.rfile.read(int(self.headers['Content-Length'])).decode('utf-8')
 		print(self.data)
+
+		if(self.path == "/web/serverGetBalance.py"):
+			balance = dbFuncs.get_balance(self.data.split('=')[1])
+			print('AYO WE GETTIN\' BALANCE YE?\n ...It is:', balance, 'wack!')
+			data = {
+					"balance" : balance,
+			}
+			json_string = json.dumps(data).encode('utf-8')
+
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
+		if(self.path == "/web/serverAddBalance.py"):
+			userId = self.data.split('&')[0][self.data.split('&')[0].index('UserId')+7:]
+			balance = dbFuncs.get_balance(userId)
+			amount = self.data.split('&')[1][self.data.split('&')[1].index('amount')+7:]
+			print('AYO WE SETTIN\' BALANCE YE?',userId,'\n ...It is:', balance + int(amount), 'wack!')
+			dbFuncs.update_balance(userId, balance + int(amount))
+
+			data = {
+				"response" : 'yes',
+			}
+			json_string = json.dumps(data).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
 
 		if all(words in self.data for words in ["user","email","password"]):
 			user = self.data.split('&')[0][self.data.split('&')[0].index('user')+5:]

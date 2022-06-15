@@ -34,9 +34,10 @@ def create_table():
                     );
                     '''
         cursor.executescript(table_script)
+
         table_script = '''CREATE TABLE IF NOT EXISTS Financial(
                         ID int NOT NULL,
-                        Balance NUMBER(0,38)
+                        balance NUMBER(0,38)
                     );
                     '''
         cursor.executescript(table_script)
@@ -45,9 +46,17 @@ def create_table():
 def update_balance(userID, newBalance):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
-        """function to insert record inside table"""
-        cursor.execute("UPDATE Financial SET Balance=? WHERE ID==?",(newBalance, userID)).fetchall()
+        """function to insert record inside table""" 
+        cursor.execute("UPDATE Financial SET balance=? WHERE ID==?",(newBalance, userID)).fetchall()
         connection.commit()
+def get_balance(userID):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        """function to insert record inside table"""
+        balance = cursor.execute("SELECT balance FROM Financial WHERE ID==?",(userID)).fetchall()
+        print(balance[0][0])
+        connection.commit()
+        return balance[0][0]
 def insert_record(fullname, email, password):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
@@ -62,6 +71,7 @@ def insert_record(fullname, email, password):
                 "email":email,
                 "name":fullname
             }
+            cursor.execute("INSTERT INTO Financial(ID, balance) VALUES(?, ?)",(last_id, 0)).fetchall()
 
             try:
                 os.mkdir('./users')

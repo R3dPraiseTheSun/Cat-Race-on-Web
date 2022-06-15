@@ -71,4 +71,4 @@ export function showModal() {
         document.getElementById("root").removeChild(modal);
 }
 
-export {login, isLogged, modalShowing, loggedInUser};
+export {login, isLogged, modalShowing, loggedInUser, UserId};
