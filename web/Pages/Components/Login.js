@@ -1,9 +1,10 @@
 import {Header, updateHeader} from "../Components/Header.js";
+import {Navbar, updateNav} from "../Components/Navbar.js";
 import * as Utils from "../Utils/SwitchPageUtils.js";
-
 
 var isLogged = false;
 var loggedInUser = '';
+var UserId = '';
 var modalShowing = false;
 
 //define the modal
@@ -49,16 +50,16 @@ export function showModal() {
                     encode: true,
                     success: function(data){
                         isLogged=true;
-                        if(document.getElementsByClassName('account-buttons')[0] !== undefined) document.getElementsByClassName('account-buttons')[0].remove();
                         loggedInUser = data.user;
-                        updateHeader()
+                        updateHeader();
+                        updateNav();
                         Utils.changePage(0);
                     },
                     error: function(){
-                        console.log("failed login!");
+                        console.log("DEBUG:failed login!");
                     },
-                  }).done(function () {
-                    console.log("we did it bruh");
+                  }).done(function() {
+                    console.log("DEBUG:login done");
                   });
                   event.preventDefault();
                 });
