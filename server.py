@@ -76,10 +76,11 @@ class RequestHandler(SimpleHTTPRequestHandler):
 				print("Failed login detected!")
 				self.send_response(404)
 			else: 
-				user = dbFuncs.check_records(email,encodePass(password))
-				print("welcome ", user)
+				data = dbFuncs.check_records(email,encodePass(password))
+				print("welcome ", data[0][0], data[0][1])
 				data = {
-					"user" : user,
+					"id" : data[0][0],
+					"user" : data[0][1],
 				}
 				json_string = json.dumps(data).encode('utf-8')
 

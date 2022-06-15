@@ -51,6 +51,7 @@ export function showModal() {
                     success: function(data){
                         isLogged=true;
                         loggedInUser = data.user;
+                        UserId = data.id;
                         updateHeader();
                         updateNav();
                         Utils.changePage(0);

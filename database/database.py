@@ -34,8 +34,20 @@ def create_table():
                     );
                     '''
         cursor.executescript(table_script)
+        table_script = '''CREATE TABLE IF NOT EXISTS Financial(
+                        ID int NOT NULL,
+                        Balance NUMBER(0,38)
+                    );
+                    '''
+        cursor.executescript(table_script)
         connection.commit()
 
+def update_balance(userID, newBalance):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        """function to insert record inside table"""
+        cursor.execute("UPDATE Financial SET Balance=? WHERE ID==?",(newBalance, userID)).fetchall()
+        connection.commit()
 def insert_record(fullname, email, password):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
@@ -69,7 +81,7 @@ def check_records(email, password):
         correct = cursor.execute("SELECT * FROM User WHERE Email == ? AND Password == ?",(email,password)).fetchall()
         if not correct: return 0
         else:
-            return correct[0][1]
+            return correct
 
 def fetch_records():
     """function to fetch User records"""
