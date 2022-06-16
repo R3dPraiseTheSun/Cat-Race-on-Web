@@ -6,8 +6,9 @@ import * as finish from "../Components/FinishState.js";
 
 import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
+
 window.showModalS = (event) => {
-    Statistics.showModal(event.clientX, event.clientY);
+    Statistics.showModal(event.clientX, event.clientY, catsArray[event.target.id].catName, Math.floor(Math.random() * 101));
 }
 window.closeModalS = () =>{
     Statistics.closeModal();
@@ -19,13 +20,43 @@ window.curseStateChanger = (state) => {
 }
 window.finishRaceWin = () => {
     Utils.changePage(1);
-    finish.showModal(finish.finishState('WIN!!!!!!!!'));
+    finish.showModal(finish.finishState('WIN!!'));
     
 }
 window.finishRaceLost = () => {
     Utils.changePage(1);
-    finish.showModal(finish.finishState('LOST :<<<<<<'));
+    finish.showModal(finish.finishState('LOST :('));
 }
+
+let catsArray = [];
+const getCats=function catDB(){
+    $.ajax({
+        type: "POST",
+        url: "/web/serverGetCats.py",
+        success: function(data){
+            catsArray = [];
+            for(let cat of data){let catData={catID:cat[0],catName:cat[1]}; catsArray.push(catData);}
+            console.log("DEBUG:cats success!");
+        },
+        error: function(){
+            console.log("DEBUG:failed cats!");
+        },
+    }).done(() => {
+        console.log("DEBUG:CATS");
+    });
+    var CATS = ``;
+    for(let cat of catsArray){
+        console.log(cat);
+        CATS +=`
+        <div id="${cat.catID}" class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
+            <h1>${cat.catName}</h1>
+            <img src="${resourcePath}${cat.catName}.png" alt="Racing cat" />
+            <button>Selecteaza</button>
+        </div>
+        `;
+    }
+    return CATS;
+};
 
 const resourcePath = "./resources/";
 const Article = function curseBasedOnState(){ 
@@ -35,37 +66,13 @@ const Article = function curseBasedOnState(){
             <div id="meniuPisici">
                 <div id="statistici">
                     <div id="scrollableArea">
-                        <div class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
-                            <h1>KittyKat</h1>
-                            <img src="`+resourcePath+`Ocelot.png" alt="Racing cat"/>
-                            <button>Selecteaza</button>
-                        </div>
-                        <div class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
-                            <h1>KittyKat</h1>
-                            <img src="`+resourcePath+`Ragdoll_Cat.png" alt="Racing cat"/>
-                            <button>Selecteaza</button>
-                        </div>
-                        <div class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
-                            <h1>KittyKat</h1>
-                            <img src="`+resourcePath+`Siamese_Cat_JE3.png" alt="Racing cat"/>
-                            <button>Selecteaza</button>
-                        </div>
-                        <div class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
-                            <h1>KittyKat</h1>
-                            <img src="`+resourcePath+`Persian_Cat.png" alt="Racing cat"/>
-                            <button>Selecteaza</button>
-                        </div>
-                        <div class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
-                            <h1>KittyKat</h1>
-                            <img src="`+resourcePath+`Jellie_Cat.png" alt="Racing cat"/>
-                            <button>Selecteaza</button>
-                        </div>
+                        ${getCats()}
                     </div>
                 </div>
                 <div id="bet">
                     <div id="suma">
                         <form>
-                            <label>Introdu suma <input type="number" min="0"/><img id = "chips" src="`+resourcePath+`chips.png "/></label>
+                            <label>Introdu suma <input type="number" min="0"/><img id = "chips" src="${resourcePath}chips.png "/></label>
                             <input type="submit" value="Confirma"/>
                         </form>
                     </div>

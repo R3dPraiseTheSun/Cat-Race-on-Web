@@ -41,7 +41,33 @@ def create_table():
                     );
                     '''
         cursor.executescript(table_script)
+        # table_script = '''DROP TABLE Cats'''
+        # cursor.executescript(table_script)
+        table_script = '''CREATE TABLE IF NOT EXISTS Cats(
+                ID int NOT NULL,
+                NAME VARCHAR(255)
+            );
+            '''
+        cursor.executescript(table_script)
+        # table_script = '''INSERT INTO Cats(ID,NAME) VALUES(0,'Ocelot')'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO Cats(ID,NAME) VALUES(1,'Ragdoll')'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO Cats(ID,NAME) VALUES(2,'Siamese')'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO Cats(ID,NAME) VALUES(3,'Persian')'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO Cats(ID,NAME) VALUES(4,'Jellie')'''
+        # cursor.executescript(table_script)
         connection.commit()
+
+def get_cats():
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        """function to insert record inside table""" 
+        catsData = cursor.execute("SELECT * FROM Cats").fetchall()
+        connection.commit()
+        return catsData
 
 def update_balance(userID, newBalance):
     with sqlite3.connect(DB_NAME) as connection:

@@ -146,11 +146,13 @@ button:hover{
     width: 100%;
     margin-bottom: 20px;
     color: azure;
+    pointer-events: none;
 }
 .pisica > img{
     width: 100%;
     background-color: black;
     margin-bottom: 10%;
+    pointer-events: none;
 }
 .pisica > button{
     display: block;
