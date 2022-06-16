@@ -7,8 +7,12 @@ import * as finish from "../Components/FinishState.js";
 import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
 
+var statsModal = false;
 window.showModalS = (event) => {
-    Statistics.showModal(event.clientX, event.clientY, catsArray[event.target.id].catName, Math.floor(Math.random() * 101));
+    if(!statsModal)
+        {Statistics.showModal(event.clientX, event.clientY, catsArray[event.target.id].catName, event.target.id); statsModal=!statsModal}
+    else
+        {Statistics.closeModal(); statsModal=!statsModal}
 }
 window.closeModalS = () =>{
     Statistics.closeModal();
@@ -46,9 +50,8 @@ const getCats=function catDB(){
     });
     var CATS = ``;
     for(let cat of catsArray){
-        console.log(cat);
         CATS +=`
-        <div id="${cat.catID}" class="pisica" onmouseover="window.showModalS(event);" onmouseout="window.closeModalS()">
+        <div id="${cat.catID}" class="pisica" onclick="window.showModalS(event);">
             <h1>${cat.catName}</h1>
             <img src="${resourcePath}${cat.catName}.png" alt="Racing cat" />
             <button>Selecteaza</button>

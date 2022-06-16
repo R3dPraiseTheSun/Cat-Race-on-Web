@@ -77,7 +77,21 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			)
 			self.end_headers()
 			self.wfile.write(json_string)
-			
+
+		if(self.path == "/web/serverGetCatStats.py"):
+			catStatsData = dbFuncs.get_cat_stat(self.data.split('=')[1])
+			print('AYO WE GETTIN\' DA CAT STAT YE?\n ...It is:', catStatsData, 'wack!')
+
+			json_string = json.dumps(catStatsData).encode('utf-8')
+
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
+
 		if(self.path == "/web/serverGetBalance.py"):
 			balance = dbFuncs.get_balance(self.data.split('=')[1])
 			print('AYO WE GETTIN\' BALANCE YE?\n ...It is:', balance, 'wack!')

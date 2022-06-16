@@ -1,0 +1,60 @@
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(0,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(0,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(0,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(0,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(0,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(1,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(1,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(1,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(1,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(1,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(2,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(2,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(2,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(2,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(2,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(3,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(3,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(3,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(3,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(3,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(4,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(4,'lost')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(4,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(4,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO CatStats(ID,RESULT) VALUES(4,'win')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO Cats(ID,NAME) VALUES(0,'Ocelot')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO Cats(ID,NAME) VALUES(1,'Ragdoll')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO Cats(ID,NAME) VALUES(2,'Siamese')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO Cats(ID,NAME) VALUES(3,'Persian')'''
+# cursor.executescript(table_script)
+# table_script = '''INSERT INTO Cats(ID,NAME) VALUES(4,'Jellie')'''
+# cursor.executescript(table_script)

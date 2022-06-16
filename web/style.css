@@ -224,14 +224,14 @@ button:hover{
     border-right: 1px white solid;
     display: inline-grid;
 }
-#catStatistics > #lastRaces > .win , .lose{
+#catStatistics > #lastRaces > .win , .lost{
     width: 100%;
     border-bottom: 1px white solid;
 }
 #catStatistics > #lastRaces > .win{
     background-color: darkgreen;
 }
-#catStatistics > #lastRaces > .lose{
+#catStatistics > #lastRaces > .lost{
     background-color: darkred;
 }
 #catStatistics > #avgPerformance{
