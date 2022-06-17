@@ -15,7 +15,7 @@ class Cat{
         return this.id
     }
     setRandomSpeed = function(){
-        this.speed=Math.random()*4+1;
+        this.speed=Math.random()*2+0.5;
     }
     nextStage = function(){
         this.racingLayer+=1;
@@ -49,9 +49,8 @@ document.addEventListener("racing-layer-change", function(e){
     if(track.currentStage < e.detail.racingLayer) track.setStage(e.detail.racingLayer);
     let racerImages = document.querySelectorAll('.catHolder');
     for(let cat of track.competingCats){
-        console.log(cat.racingLayer, track.currentStage);
-        if(cat.racingLayer >= track.currentStage) {racerImages[cat.id].style.visibility = 'visible'; console.log("cat "+cat.name+" is visible because "+cat.racingLayer+">="+track.currentStage);}
-        else {racerImages[cat.id].style.visibility = 'hidden'; console.log("cat "+cat.name+" is not visible because "+cat.racingLayer+"<"+track.currentStage);}
+        if(cat.racingLayer >= track.currentStage) {racerImages[cat.id].style.visibility = 'visible';}
+        else {racerImages[cat.id].style.visibility = 'hidden';}
     }
 })
 
@@ -71,7 +70,7 @@ function generateCats(catList){
         objCat.nextLapTime = 10/objCat.speed;  
         catsArray.push(objCat);
         RacingCats += `
-        <div id="Cat${position}" class="catHolder" style="width:10%; display:inline">
+        <div id="Cat${position}" class="catHolder" style="display:inline">
         <img style="top:${pivotPoint.top}px; left:${pivotPoint.left}px; animation: movement${position} ${10/objCat.speed}s; animation-timing-function: linear;" src=${resourcePath}${cat.catName}.png>
         </div>
         `;
@@ -110,9 +109,11 @@ export const Racing = function setupRace(catList){
         <div id="meniuPisici">
             <div id="racingPanel">
                 <h1>Racing now!</h1>
-                <div>
+                <div class="backgroundHolder">
                     <img src=${resourcePath}/catTrackBG.jpeg>
                     <img src=${resourcePath}/catTrack.png>
+                </div>
+                <div class="competingCats">
                     ${generateCats(catList)}
                 </div>
             </div>

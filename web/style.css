@@ -177,22 +177,20 @@ button:hover{
 #racingPanel{
     color: white;
     background: black;
-    height: fit-content;
     width: 100%;
     border-radius: 25px;
 }
 #racingPanel > h1{
-    height: 10%;
     text-align: center;
     border-bottom: 3px white solid;
     padding-top: 1%;
 }
 #racingPanel > div{
-    text-align: center;
-    padding-top: 5%;
-    width: 100%;
     position: relative;
-    min-height: 50vh;
+    text-align: center;
+    padding: 5% 0 20% 0;
+    height: 0;
+    margin: 0 auto;
 }
 #racingPanel > div > img{
     width: 90%;
@@ -204,31 +202,58 @@ button:hover{
 .catHolder > img {
     width: 10%;
     position: relative;
+    float: left;
     z-index: 10;
     image-rendering: pixelated;
     transform: scaleX(-1.6) skewY(36deg);
 }
+.catHolder{
+    width: 100%;
+    position: absolute;
+    left: 0;
+}
+
+#Cat0{
+    /* background-color: blueviolet; */
+    padding-top:0%;
+}
+#Cat1{
+    /* background-color: blueviolet; */
+    padding-top:2%;
+}
+#Cat2{
+    /* background-color: blueviolet; */
+    padding-top:4%;
+}
+#Cat3{
+    /* background-color: blueviolet; */
+    padding-top:6%;
+}
+#Cat4{
+    /* background-color: blueviolet; */
+    padding-top:8%;
+}
 
 /*Cat Animation*/
 @keyframes movement0 {
-    0%   {top:250px; left:-250px;}
-    100% {top:250px; left:650px;}
+    0%   {top:0px; left:0;}
+    100% {top:0px; left:90%;}
 }
 @keyframes movement1 {
-    0%   {top:280px; left:-360px;}
-    100% {top:280px; left:540px;}
+    0%   {top:0px; left:0;}
+    100% {top:0px; left:90%;}
 }
 @keyframes movement2 {
-    0%   {top:310px; left:-470px;}
-    100% {top:310px; left:430px;}
+    0%   {top:0px; left:0;}
+    100% {top:0px; left:90%;}
 }
 @keyframes movement3 {
-    0%   {top:340px; left:-580px;}
-    100% {top:340px; left:320px;}
+    0%   {top:0px; left:0;}
+    100% {top:0px; left:90%;}
 }
 @keyframes movement4 {
-    0%   {top:370px; left:-690px;}
-    100% {top:370px; left:210px;}
+    0%   {top:0px; left:0;}
+    100% {top:0px; left:90%;}
 }
 
 /*Cat statistics*/
