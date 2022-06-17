@@ -3,6 +3,7 @@ class Cat{
     id;
     speed=10;
     racingLayer=0;
+    nextLapTime=0;
     constructor(name,id){
         this.name = name;
         this.id = id;
@@ -10,21 +11,28 @@ class Cat{
     get speed(){
         return this.speed;
     }
+    get id(){
+        return this.id
+    }
     setRandomSpeed = function(){
-        this.speed=Math.random()*10+1;
+        this.speed=Math.random()*4+1;
     }
     nextStage = function(){
         this.racingLayer+=1;
+        var racingLayerEvent = new CustomEvent("racing-layer-change", {
+            "detail": {"racingLayer": this.racingLayer}
+        });
+        document.dispatchEvent(racingLayerEvent);
     }
 }
 
 class CatTrack{
     currentStage;
     maxStage;
-    competingCats = [Cat];
+    competingCats = [];
     constructor(){
         this.currentStage=0;
-        this.maxStage=4;
+        this.maxStage=10;
     }
     set competingCats(catsArray){
         this.competingCats = catsArray;
@@ -37,25 +45,36 @@ class CatTrack{
     }
 }
 
+document.addEventListener("racing-layer-change", function(e){
+    if(track.currentStage < e.detail.racingLayer) track.setStage(e.detail.racingLayer);
+    let racerImages = document.querySelectorAll('.catHolder');
+    for(let cat of track.competingCats){
+        console.log(cat.racingLayer, track.currentStage);
+        if(cat.racingLayer >= track.currentStage) {racerImages[cat.id].style.visibility = 'visible'; console.log("cat "+cat.name+" is visible because "+cat.racingLayer+">="+track.currentStage);}
+        else {racerImages[cat.id].style.visibility = 'hidden'; console.log("cat "+cat.name+" is not visible because "+cat.racingLayer+"<"+track.currentStage);}
+    }
+})
+
+
 let track = new CatTrack();
 const resourcePath = "./resources/";
 
 const pivotRacingLine = {top: 250, left: -250};
 var RacingCats=``;
 function generateCats(catList){
-    let catsArray = [Cat];
+    let catsArray = [];
     let pivotPoint = pivotRacingLine;
     var position = 0;
     for(let cat of catList) {
         let objCat = new Cat(cat.catName, cat.catID);
-        catsArray.push(objCat);
         objCat.setRandomSpeed();
-
+        objCat.nextLapTime = 10/objCat.speed;  
+        catsArray.push(objCat);
         RacingCats += `
         <div id="Cat${position}" class="catHolder" style="width:10%; display:inline">
         <img style="top:${pivotPoint.top}px; left:${pivotPoint.left}px; animation: movement${position} ${10/objCat.speed}s; animation-timing-function: linear;" src=${resourcePath}${cat.catName}.png>
-        </div>`;
-
+        </div>
+        `;
         position+=1;
         pivotPoint.top+=30;
         pivotPoint.left-=110;
@@ -73,6 +92,7 @@ addEventListener("animationend",function listener(event){
         if(event.animationName.split('movement')[1] == cat.id){
             cat.nextStage();
             cat.setRandomSpeed();
+            cat.nextLapTime = 10/cat.speed;
             let newElement = element;
             parent.removeChild(element);
             newElement.style.animation = `movement${position} ${10/cat.speed}s linear`;
