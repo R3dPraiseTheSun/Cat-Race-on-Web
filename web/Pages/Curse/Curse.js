@@ -96,7 +96,7 @@ export default function buildRace(){
     curseHTML = 
     Header +
     Navbar +
-    Article(curseState) +
+    Article() +
     Footer;
     return curseHTML;
 }

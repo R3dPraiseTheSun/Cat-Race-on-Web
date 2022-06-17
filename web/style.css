@@ -209,6 +209,28 @@ button:hover{
     transform: scaleX(-1.6) skewY(36deg);
 }
 
+/*Cat Animation*/
+@keyframes movement0 {
+    0%   {top:250px; left:-250px;}
+    100% {top:250px; left:650px;}
+}
+@keyframes movement1 {
+    0%   {top:280px; left:-360px;}
+    100% {top:280px; left:540px;}
+}
+@keyframes movement2 {
+    0%   {top:310px; left:-470px;}
+    100% {top:310px; left:430px;}
+}
+@keyframes movement3 {
+    0%   {top:340px; left:-580px;}
+    100% {top:340px; left:320px;}
+}
+@keyframes movement4 {
+    0%   {top:370px; left:-690px;}
+    100% {top:370px; left:210px;}
+}
+
 /*Cat statistics*/
 
 #catStatistics{
