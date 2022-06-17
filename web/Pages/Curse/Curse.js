@@ -88,7 +88,7 @@ const Article = function curseBasedOnState(){
         </article>`
         );
     }else{
-        return Racing();
+        return Racing(catsArray);
     }
 };
 var curseHTML='';

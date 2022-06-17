@@ -201,6 +201,13 @@ button:hover{
     left: 3vw;
     aspect-ratio: 2.4;
 }
+.catHolder > img {
+    width: 10%;
+    position: relative;
+    z-index: 10;
+    image-rendering: pixelated;
+    transform: scaleX(-1.6) skewY(36deg);
+}
 
 /*Cat statistics*/
 
