@@ -13,14 +13,14 @@ const lastFiveStats = function fiveStats(catId){
         },
         success: function(data){
             resultArray = [];
-            for(let dataRow of data) {console.log(dataRow); resultArray.push(dataRow[1]);}
-            console.log("DEBUG:cats stats success!");
+            for(let dataRow of data) {resultArray.push(dataRow[1]);}
+            //console.log("DEBUG:cats stats success!");
         },
         error: function(){
-            console.log("DEBUG:failed cats stats!");
+            //console.log("DEBUG:failed cats stats!");
         },
     }).done(() => {
-        console.log("DEBUG:CATS stats");
+        //console.log("DEBUG:CATS stats");
     });
 
     var LastFive = ``;

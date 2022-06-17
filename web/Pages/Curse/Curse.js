@@ -3,6 +3,7 @@ import {Header} from "../Components/Header.js";
 import {Footer} from "../Components/Footer.js";
 
 import * as finish from "../Components/FinishState.js";
+import { Racing } from "../Components/RaceComponent.js";
 
 import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
@@ -40,13 +41,13 @@ const getCats=function catDB(){
         success: function(data){
             catsArray = [];
             for(let cat of data){let catData={catID:cat[0],catName:cat[1]}; catsArray.push(catData);}
-            console.log("DEBUG:cats success!");
+            //console.log("DEBUG:cats success!");
         },
         error: function(){
-            console.log("DEBUG:failed cats!");
+            //console.log("DEBUG:failed cats!");
         },
     }).done(() => {
-        console.log("DEBUG:CATS");
+        //console.log("DEBUG:CATS");
     });
     var CATS = ``;
     for(let cat of catsArray){
@@ -87,23 +88,7 @@ const Article = function curseBasedOnState(){
         </article>`
         );
     }else{
-        return( 
-        `<article>
-            <div id="meniuPisici">
-                <div id="racingPanel">
-                    <h1>Racing now!</h1>
-                    <div>
-                        <img src="https://c.tenor.com/VoZ3ASneP2AAAAAd/minecraft-cat.gif"/>
-                    </div>
-                </div>
-                <div id="debugBtn">
-                    <button onclick="window.curseStateChanger(0);">Change State</button>
-                    <button onclick="window.finishRaceWin()">Finish Race Win</button>
-                    <button onclick="window.finishRaceLost()">Finish Race Lost</button>
-                </div>
-            </div>
-        </article>`
-        );
+        return Racing();
     }
 };
 var curseHTML='';

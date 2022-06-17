@@ -191,10 +191,14 @@ button:hover{
     text-align: center;
     padding-top: 5%;
     width: 100%;
+    position: relative;
+    min-height: 50vh;
 }
 #racingPanel > div > img{
     width: 90%;
     padding: 1%;
+    position: absolute;
+    left: 3vw;
     aspect-ratio: 2.4;
 }
 
