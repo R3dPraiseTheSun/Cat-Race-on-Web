@@ -4,12 +4,18 @@ import * as LoginFunc from "../Components/Login.js";
 
 window.changePage=Utils.changePage;
 
+window.logout = function(){
+    document.cookie = 'sessionID=; Max-Age=-9999999;';
+    LoginFunc.logStatus(false);
+    window.changePage(0);
+}
+
 const accountButtons = function (){
     if(!LoginFunc.isLogged) return(`
         <p id="login"><button onclick="window.showModalL()" id="loginBtn">Log in</button></p>
         <p id="signup"><button onclick="window.showModalR()" id="signupBtn">Sign up</button></p>
     `);
-    else return(`<p id="logout"><button id="logoutBtn">Log out</button></p>`);
+    else return(`<p id="logout"><button id="logoutBtn" onclick="window.logout()">Log out</button></p>`);
 }
 
 const navButtons = function (){

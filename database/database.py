@@ -1,11 +1,15 @@
 from asyncio.windows_events import NULL
 from cmath import log
+from pickle import FALSE, TRUE
 import sqlite3
 from mimetypes import init
 from sqlite3 import connect
 from sqlite3 import Error
 from sqlite3.dbapi2 import Cursor
 import os,json
+from numpy import equal
+
+from requests import session
 
 DB_NAME = r"database\user_records.db"
 def create_connection(db_file):
@@ -34,6 +38,9 @@ def create_table():
                     );
                     '''
         cursor.executescript(table_script)
+
+        # table_script = '''ALTER TABLE User ADD session_id varchar(255)'''
+        # cursor.executescript(table_script)
 
         table_script = '''CREATE TABLE IF NOT EXISTS Financial(
                         ID int NOT NULL,
@@ -87,6 +94,24 @@ def get_balance(userID):
         print(balance[0][0])
         connection.commit()
         return balance[0][0]
+
+def update_sessionID(sessionID, clientID):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        currentSessionID = cursor.execute("SELECT session_id from User WHERE ID==?",(clientID, )).fetchall()
+        if not currentSessionID:
+            cursor.execute("UPDATE User SET session_id=? WHERE ID==?", (sessionID, clientID))
+            return sessionID
+        return currentSessionID[0][0]
+
+def check_cookie(givenSessionID, clientID):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        sessionIDFromClient = cursor.execute("SELECT session_id from User WHERE ID==?",(clientID, )).fetchall()
+        if givenSessionID == sessionIDFromClient[0][0]:
+            return cursor.execute("SELECT * from User WHERE ID==?",(clientID, )).fetchall()
+        return FALSE
+
 def insert_record(fullname, email, password):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()

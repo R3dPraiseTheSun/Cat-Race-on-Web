@@ -7,6 +7,19 @@ var loggedInUser = '';
 var UserId = '';
 var modalShowing = false;
 
+export const logStatus = function(value){
+    isLogged=value;
+    updateHeader();
+    updateNav();
+}
+
+export const loggedInUserStatus = function(value){
+    loggedInUser=value;
+}
+export const UserIdStatus = function(value){
+    UserId=value;
+}
+
 //define the modal
 let login=`
 <div id="login">
@@ -49,12 +62,15 @@ export function showModal() {
                     dataType: "json",
                     encode: true,
                     success: function(data){
+                        console.log(data);
                         isLogged=true;
                         loggedInUser = data.user;
                         UserId = data.id;
                         updateHeader();
                         updateNav();
                         Utils.changePage(0);
+                        if(!document.cookie.includes('sessionID'))
+                            document.cookie = "sessionID="+data.sessionID+":"+data.id+";";
                     },
                     error: function(){
                         //console.log("DEBUG:failed login!");

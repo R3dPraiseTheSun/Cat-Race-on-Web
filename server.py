@@ -3,6 +3,7 @@ from cmath import log
 from socketserver import ThreadingMixIn
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
+import secrets
 
 from numpy import blackman
 
@@ -13,6 +14,12 @@ dbFuncs.create_table()
 
 class ThreadingServer(ThreadingMixIn, HTTPServer):
     pass
+
+def make_token():
+    """
+    Creates a cryptographically-secure, URL-safe string
+    """
+    return secrets.token_urlsafe(16)  
 
 def encodePass(password):
 	password = password.encode('utf-8')
@@ -64,9 +71,30 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		self.data = self.rfile.read(int(self.headers['Content-Length'])).decode('utf-8')
 		print(self.data)
 
+		if(self.path == "/web/serverContinousLogin.py"):
+			cookie = self.data.split('&')[0][self.data.split('&')[0].index('cookie')+7:]
+			clientID = self.data.split('&')[1][self.data.split('&')[1].index('clientID')+9:]
+			check = dbFuncs.check_cookie(cookie, clientID)
+			if(not check):
+				self.send_response_only(404)
+			else: 
+				print(check)
+				loginData = {
+					'user':check[0][1],
+					'id':check[0][0]
+				}
+				json_string = json.dumps(loginData).encode('utf-8')
+				self.send_response(200)
+				self.send_header(
+					'Content-type',
+					'application/json'
+				)
+				self.end_headers()
+				self.wfile.write(json_string)
+
 		if(self.path == "/web/serverGetCats.py"):
 			catsData = dbFuncs.get_cats()
-			print('AYO WE GETTIN\' DA CATS YE?\n ...It is:', catsData, 'wack!')
+			# print('AYO WE GETTIN\' DA CATS YE?\n ...It is:', catsData, 'wack!')
 
 			json_string = json.dumps(catsData).encode('utf-8')
 
@@ -80,7 +108,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
 		if(self.path == "/web/serverGetCatStats.py"):
 			catStatsData = dbFuncs.get_cat_stat(self.data.split('=')[1])
-			print('AYO WE GETTIN\' DA CAT STAT YE?\n ...It is:', catStatsData, 'wack!')
+			# print('AYO WE GETTIN\' DA CAT STAT YE?\n ...It is:', catStatsData, 'wack!')
 
 			json_string = json.dumps(catStatsData).encode('utf-8')
 
@@ -94,7 +122,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
 		if(self.path == "/web/serverGetBalance.py"):
 			balance = dbFuncs.get_balance(self.data.split('=')[1])
-			print('AYO WE GETTIN\' BALANCE YE?\n ...It is:', balance, 'wack!')
+			# print('AYO WE GETTIN\' BALANCE YE?\n ...It is:', balance, 'wack!')
 			data = {
 					"balance" : balance,
 			}
@@ -111,7 +139,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			userId = self.data.split('&')[0][self.data.split('&')[0].index('UserId')+7:]
 			balance = dbFuncs.get_balance(userId)
 			amount = self.data.split('&')[1][self.data.split('&')[1].index('amount')+7:]
-			print('AYO WE SETTIN\' BALANCE YE?',userId,'\n ...It is:', balance + int(amount), 'wack!')
+			# print('AYO WE SETTIN\' BALANCE YE?',userId,'\n ...It is:', balance + int(amount), 'wack!')
 			dbFuncs.update_balance(userId, balance + int(amount))
 
 			data = {
@@ -131,21 +159,24 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			email = self.data.split('&')[1][self.data.split('&')[1].index('email')+6:]
 			password = self.data.split('&')[2][self.data.split('&')[2].index('password')+9:]
 
-			print("Register: ",user, email, password)
+			# print("Register: ",user, email, password)
 			dbFuncs.insert_record(user, email,encodePass(password))
 
 		if all(words in self.data for words in ["email","password"]):
 			email = self.data.split('&')[0][self.data.split('&')[0].index('email')+6:]
 			password = self.data.split('&')[1][self.data.split('&')[1].index('password')+9:]
 			if(not dbFuncs.check_records(email,encodePass(password))): 
-				print("Failed login detected!")
+				# print("Failed login detected!")
 				self.send_response(404)
 			else: 
+				sessionID = make_token()
 				data = dbFuncs.check_records(email,encodePass(password))
-				print("welcome ", data[0][0], data[0][1])
+				# print("welcome ", data[0][0], data[0][1])
+				sessionID = dbFuncs.update_sessionID(sessionID, data[0][0])
 				data = {
 					"id" : data[0][0],
 					"user" : data[0][1],
+					"sessionID": sessionID
 				}
 				json_string = json.dumps(data).encode('utf-8')
 
