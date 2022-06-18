@@ -1,13 +1,14 @@
 var modalShowing = false;
-var avgPerformance = 0;
 
 let resultArray = [];
+var avgPerformance = 0;
+var LastFive = ``;
 
 const lastFiveStats = function fiveStats(catId){
-    avgPerformance = 0;
     $.ajax({
         type: "POST",
         url: "/web/serverGetCatStats.py",
+        async: false,
         data:{
             catId,
         },
@@ -22,37 +23,40 @@ const lastFiveStats = function fiveStats(catId){
     }).done(() => {
         //console.log("DEBUG:CATS stats");
     });
-
-    var LastFive = ``;
-    for(let i=0; i<5; i++){
-        LastFive += `<div class="${resultArray[i]}">${resultArray[i].toUpperCase()}</div>`;
-        if(resultArray[i]=='win')
-            avgPerformance += 20;
-    }
-    return LastFive;
 }
 
 //define the modal
 export const statistics= function stats(catName, catID){
+    lastFiveStats(catID);
+    function fct(){
+        LastFive = ``;
+        avgPerformance = 0;
+        for(let i=0; i<5; i++){
+            LastFive += `<div class="${resultArray[i]}">${resultArray[i].toUpperCase()}</div>`;
+            if(resultArray[i]=='win')
+                avgPerformance += 20;
+        }
+        return LastFive;
+    }
     return(
         `<div id="circle"></div>
         <h1>${catName}</h1>
         <div id="lastRaces">
-            ${lastFiveStats(catID)}
+        ${fct()}
         </div>
         <div id="avgPerformance">
-            <h3>Average performance:</h3>
-            <p>${avgPerformance}%</p>
+        <h3>Average performance:</h3>
+        <p>${avgPerformance}%</p>
         </div>`
-    )
-};
-
-
-let modal = document.createElement('div');
-modal.setAttribute("id","catStatistics");
-
-export function showModal(clientX, clientY, catName, avgPerf) {
-    modal.innerHTML=statistics(catName, avgPerf);
+        )
+    };
+    
+    
+    let modal = document.createElement('div');
+    modal.setAttribute("id","catStatistics");
+    
+export function showModal(clientX, clientY, catName, catID) {
+    modal.innerHTML=statistics(catName, catID);
     modal.style.top=(clientY+5) + 'px';
     modal.style.left=(clientX) +'px';
     modalShowing = true;

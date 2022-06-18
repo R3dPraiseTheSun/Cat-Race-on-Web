@@ -15,9 +15,7 @@ window.showModalS = (event) => {
     else
         {Statistics.closeModal(); statsModal=!statsModal}
 }
-window.closeModalS = () =>{
-    Statistics.closeModal();
-}
+
 var curseState = 0;
 window.curseStateChanger = (state) => {
     curseState =  state;
