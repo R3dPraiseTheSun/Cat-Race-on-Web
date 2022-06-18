@@ -57,10 +57,10 @@ export function showModal() {
                         Utils.changePage(0);
                     },
                     error: function(){
-                        console.log("DEBUG:failed login!");
+                        //console.log("DEBUG:failed login!");
                     },
                   }).done(function() {
-                    console.log("DEBUG:login done");
+                    //console.log("DEBUG:login done");
                   });
                   event.preventDefault();
                 });
