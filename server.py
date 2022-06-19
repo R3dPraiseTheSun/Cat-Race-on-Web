@@ -100,12 +100,29 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(json_string)
 
+		if(self.path == "/web/serverGetBets.py"):
+			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
+			betList = dbFuncs.get_bets(userID)
+			response = {
+				'betList': betList
+			}
+			json_string = json.dumps(response).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
+
 		if(self.path == "/web/serverPlaceBet.py"):
 			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
 			catID = self.data.split('&')[1][self.data.split('&')[1].index('catID')+6:]
 			betValue = self.data.split('&')[2][self.data.split('&')[2].index('betValue')+9:]
+			eventID = self.data.split('&')[3][self.data.split('&')[3].index('eventID')+8:]
+			dbFuncs.place_bet(userID,eventID,catID,betValue)
 			response = {
-				'response': 'placed ' + betValue+' on ' + catID + ' from ' + userID
+				'response': 'placed ' + betValue+' on event no. ' + eventID + ' on cat: ' + catID + ' from ' + userID
 			}
 			json_string = json.dumps(response).encode('utf-8')
 			self.send_response(200)
@@ -123,7 +140,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			if(not check):
 				self.send_response_only(404)
 			else: 
-				print(check)
+				#print(check)
 				loginData = {
 					'user':check[0][1],
 					'id':check[0][0]
@@ -138,7 +155,12 @@ class RequestHandler(SimpleHTTPRequestHandler):
 				self.wfile.write(json_string)
 
 		if(self.path == "/web/serverGetCats.py"):
-			catsData = dbFuncs.get_cats()
+			eventID = self.data.split('EventID=')[1]
+			catsDataArray = dbFuncs.get_cats(eventID)
+			catsData=[]
+			for catsElem in catsDataArray:
+				catsData.append(catsElem[0])
+
 			# print('AYO WE GETTIN\' DA CATS YE?\n ...It is:', catsData, 'wack!')
 
 			json_string = json.dumps(catsData).encode('utf-8')

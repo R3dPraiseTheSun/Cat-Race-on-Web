@@ -77,8 +77,23 @@ def create_table():
             event_id int NOT NULL
         );
         '''
-        cursor.executescript(table_script)
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,0)'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,0)'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,0)'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,0)'''
+        # cursor.executescript(table_script)
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,0)'''
+        # cursor.executescript(table_script)
+
         #Bets Table
+
+        # table_script = '''DROP TABLE UsersBets'''
+        # cursor.executescript(table_script)
+
         table_script = '''CREATE TABLE IF NOT EXISTS UsersBets(
             ID int NOT NULL,
             event_id int NOT NULL,
@@ -91,12 +106,15 @@ def create_table():
         cursor.executescript(table_script)
         connection.commit()
 
-def get_cats():
+def get_cats(eventID):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
+        catIds = cursor.execute("SELECT cat_id FROM CatAttendance WHERE event_id==?",(eventID)).fetchall()
         """function to insert record inside table""" 
-        catsData = cursor.execute("SELECT * FROM Cats").fetchall()
-        connection.commit()
+        catsData = []
+        for catId in catIds:
+            catsData.append(cursor.execute("SELECT * FROM Cats WHERE ID==?",(catId[0], )).fetchall())
+            connection.commit()
         return catsData
 
 def get_cat_stat(catId):
@@ -183,7 +201,7 @@ def fetch_records():
         data = cursor.fetchall()
         return data
 
-def placeBet(userID,eventID,catID,betValue):
+def place_bet(userID,eventID,catID,betValue):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
         last_id = cursor.execute("SELECT * FROM UsersBets ORDER BY ID DESC LIMIT 1").fetchall()
@@ -191,6 +209,12 @@ def placeBet(userID,eventID,catID,betValue):
         else: last_id = last_id[0][0] + 1
         betTime = datetime.now().strftime("%H:%M:%S")
         cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_time, bet_size) VALUES(?,?,?,?,?,?)",(last_id, eventID, userID, catID, betTime, betValue)).fetchall()
+
+def get_bets(userID):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        betList = cursor.execute("SELECT * FROM UsersBets WHERE client_id==?",(userID)).fetchall()
+        return betList
 
 def get_events():
     with sqlite3.connect(DB_NAME) as connection:

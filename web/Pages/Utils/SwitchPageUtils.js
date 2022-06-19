@@ -1,4 +1,5 @@
 import  * as render from "../../render.js";
+import { getStickyBets } from "../Components/BetListSticky.js";
 
 let baseURL = document.URL;
 baseURL = baseURL.split('#')[0];
@@ -43,4 +44,5 @@ export function changePage(number){
         title: title
     };
     processURL(response, urlPath);
+    getStickyBets();
 }

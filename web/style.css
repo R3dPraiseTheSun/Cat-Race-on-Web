@@ -461,3 +461,21 @@ height: fit-content;
 #calendar{
     padding: 50px;
 }
+
+/*STICKY BETS*/
+#stickyBetsHolder{
+    text-align: center;
+    color: rgb(195, 195, 195);
+    position: sticky;
+    bottom: 55vh;
+    left: 0;
+    max-width: 9.8%;
+    max-height: 50%;
+}
+#stickyBetsHolder > .separator{
+    border-bottom: 2px black solid;
+    margin: 0;
+}
+#stickyBetsHolder > *{
+    margin: 0;
+}

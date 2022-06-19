@@ -37,21 +37,21 @@ window.selectEvent = (eventId) => {
     selectEvent = eventId;
     Utils.changePage(1);
 }
-window.placeBet = (catID, eventID) => {
+window.placeBet = (catID) => {
     let betValue = $(`${"#bet"+catID}`).val();
-    console.log(GetUserId() + ' placed ' + betValue + ' on ' + catID);
+    console.log(GetUserId() + ' placed ' + betValue + ' on ' + catID + ' on event no. ' + selectEvent);
     let formData = {
         "userID": GetUserId(),
         "catID": catID,
         "betValue": betValue,
-        "eventID": eventID
+        "eventID": selectEvent
     }
     $.ajax({
         type: "POST",
         url: "/web/serverPlaceBet.py",
         data: formData,
         success: function(data){
-            console.log(data);
+            //console.log(data);
             //console.log("DEBUG:cats success!");
         },
         error: function(){
@@ -63,7 +63,7 @@ window.placeBet = (catID, eventID) => {
 }
 
 let catsArray = [];
-const getCats=function catDB(selectEvent){
+const getCats=function catDB(){
     if(selectEvent == null)
         return (`<div id="no-cats-selected"><h1>No event selected. Select one from the event list</h1></div>`)
     $.ajax({
@@ -74,7 +74,6 @@ const getCats=function catDB(selectEvent){
             'EventID':selectEvent
         },
         success: function(data){
-            console.log(data);
             catsArray = [];
             for(let cat of data){let catData={catID:cat[0],catName:cat[1]}; catsArray.push(catData);}
             //console.log("DEBUG:cats success!");
@@ -180,7 +179,7 @@ const Article = function curseBasedOnState(){
                 ${selectEventHTML()}
                 <div id="statistici">
                     <div id="scrollableArea">
-                        ${getCats(selectEvent)}
+                        ${getCats()}
                     </div>
                 </div>
                 <div id="bet">
