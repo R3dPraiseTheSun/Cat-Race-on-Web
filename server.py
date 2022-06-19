@@ -103,8 +103,10 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		if(self.path == "/web/serverGetBets.py"):
 			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
 			betList = dbFuncs.get_bets(userID)
+			catStat = dbFuncs.get_cat_name(betList[0][3])
 			response = {
-				'betList': betList
+				'betList': betList,
+				'catName': catStat
 			}
 			json_string = json.dumps(response).encode('utf-8')
 			self.send_response(200)

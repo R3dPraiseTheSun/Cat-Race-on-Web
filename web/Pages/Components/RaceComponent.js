@@ -62,6 +62,7 @@ document.addEventListener("racing-layer-change", function(e){
 
 
 let track = new CatTrack();
+
 const resourcePath = "./resources/";
 
 const pivotRacingLine = {top: 250, left: -250};

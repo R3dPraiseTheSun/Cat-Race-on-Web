@@ -1,6 +1,9 @@
 import { GetUserId, isLogged } from "./Login.js";
 
-let betList = [];
+let betList = {
+    "betList":null,
+    "catName":null
+};
 const BetList = function(){
     let formData={
         'userID': GetUserId()
@@ -11,8 +14,8 @@ const BetList = function(){
         data: formData,
         async:false,
         success: function(data){
-            console.log(data);
-            betList = data.betList;
+            betList.betList = data.betList;
+            betList.catName = data.catName;
             //console.log("DEBUG:cats success!");
         },
         error: function(){
@@ -24,11 +27,11 @@ const BetList = function(){
 }
 const renderBets = function(){
     var BetListHTML=``;
-    for(let bet of betList)
+    for(let bet of betList.betList)
         BetListHTML += `
             <div class="separator"></div>
             <h4>Bet on Event:${bet[1]}</h4>
-            <h5>Cat: ${bet[3]} with ${bet[5]} chips</h5>
+            <h5>Cat: ${betList.catName[bet[3]][1]} with ${bet[5]} chips</h5>
             <h5>at ${bet[4]}</h5>
             <div class="separator"></div>
         `;
@@ -38,7 +41,7 @@ const renderBets = function(){
 export const getStickyBets = function(){
     if(isLogged){
         BetList();
-        if(betList.length > 0){
+        if(betList.betList.length > 0){
             let stickyBetsNode = document.createElement("div")
             stickyBetsNode.setAttribute("id",'stickyBetsHolder')
             stickyBetsNode.innerHTML=renderBets();

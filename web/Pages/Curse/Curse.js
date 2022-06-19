@@ -8,6 +8,7 @@ import { GetUserId } from "../Components/Login.js";
 
 import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
+import { betList, getStickyBets } from "../Components/BetListSticky.js";
 
 var selectEvent = null;
 
@@ -51,6 +52,7 @@ window.placeBet = (catID) => {
         url: "/web/serverPlaceBet.py",
         data: formData,
         success: function(data){
+            getStickyBets();
             //console.log(data);
             //console.log("DEBUG:cats success!");
         },
@@ -84,15 +86,23 @@ const getCats=function catDB(){
     }).done(() => {
         //console.log("DEBUG:CATS");
     });
+    const buttonName = function(bet){
+        if(bet > 0)
+            return `Change Bet`;
+        return `Place Bet`;
+    }
+    let bets = betList.betList;
     var CATS = ``;
     for(let cat of catsArray){
+        let currentBet = 0;
+        for(let bet of bets) if(bet[1] == selectEvent && cat.catID == bet[3]) currentBet=bet[5];
         CATS +=`
         <div id="${cat.catID}" class="pisica" onclick="window.showModalS(event);">
             <h1>${cat.catName}</h1>
             <img src="${resourcePath}${cat.catName}.png" alt="Racing cat" />
             <div class="addBet">
-                <label>Introdu suma: <input id="bet${cat.catID}" type="number" min="0"/><img id = "chips" src="${resourcePath}chips.png "/></label>
-                <button onclick="window.placeBet(${cat.catID})">BET</button>
+                <label>Introdu suma: <input id="bet${cat.catID}" type="number" placeholder="${currentBet}" min="0"/><img id = "chips" src="${resourcePath}chips.png "/></label>
+                <button onclick="window.placeBet(${cat.catID})">${buttonName(currentBet)}</button>
             </div>
         </div>
         `;

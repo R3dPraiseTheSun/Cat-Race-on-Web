@@ -114,14 +114,22 @@ def get_cats(eventID):
         catsData = []
         for catId in catIds:
             catsData.append(cursor.execute("SELECT * FROM Cats WHERE ID==?",(catId[0], )).fetchall())
-            connection.commit()
+        connection.commit()
         return catsData
+
+def get_cat_name(catId):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        """function to insert record inside table""" 
+        catName = cursor.execute("SELECT * FROM Cats WHERE ID==?",(catId, )).fetchall()
+        connection.commit()
+        return catName
 
 def get_cat_stat(catId):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
         """function to insert record inside table""" 
-        catStatData = cursor.execute("SELECT * FROM CatStats WHERE ID==?",(catId)).fetchall()
+        catStatData = cursor.execute("SELECT * FROM CatStats WHERE ID==?",(catId, )).fetchall()
         connection.commit()
         return catStatData
 
