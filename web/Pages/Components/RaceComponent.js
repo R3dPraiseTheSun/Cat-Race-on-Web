@@ -15,10 +15,11 @@ class Cat{
         return this.id
     }
     setRandomSpeed = function(){
-        this.speed=Math.random()*2+0.5;
+        this.speed=Math.random()*4+1;
     }
     nextStage = function(){
         this.racingLayer+=1;
+        if(this.racingLayer >= track.maxStage) track.addWinner(this);
         var racingLayerEvent = new CustomEvent("racing-layer-change", {
             "detail": {"racingLayer": this.racingLayer}
         });
@@ -30,6 +31,7 @@ class CatTrack{
     currentStage;
     maxStage;
     competingCats = [];
+    winnerCats = [];
     constructor(){
         this.currentStage=0;
         this.maxStage=10;
@@ -42,6 +44,10 @@ class CatTrack{
     }
     setStage = function(newStage){
         this.currentStage=newStage;
+    }
+    addWinner = function(winningCat){
+        if(winnerCats.length < 3)
+            this.winnerCats.push(winningCat);
     }
 }
 
@@ -79,7 +85,7 @@ function generateCats(catList){
         pivotPoint.left-=110;
     }
     track.competingCats=catsArray;
-    console.log(track);
+    //console.log(track);
     return RacingCats;
 }
 

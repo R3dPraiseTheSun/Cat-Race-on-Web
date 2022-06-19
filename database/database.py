@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from cmath import log
+from datetime import datetime
 from pickle import FALSE, TRUE
 import sqlite3
 from mimetypes import init
@@ -61,6 +62,32 @@ def create_table():
                 RESULT VARCHAR(10)
             );
             '''
+        cursor.executescript(table_script)
+        #Event Table
+        table_script = '''CREATE TABLE IF NOT EXISTS EventSchedule(
+            ID int NOT NULL,
+            event_date DATE,
+            event_start_time TIME (0) NOT NULL
+        );
+        '''
+        cursor.executescript(table_script)
+        #Cat Competitors
+        table_script = '''CREATE TABLE IF NOT EXISTS CatAttendance(
+            cat_id int NOT NULL,
+            event_id int NOT NULL
+        );
+        '''
+        cursor.executescript(table_script)
+        #Bets Table
+        table_script = '''CREATE TABLE IF NOT EXISTS UsersBets(
+            ID int NOT NULL,
+            event_id int NOT NULL,
+            client_id int NOT NULL,
+            cat_id int NOT NULL,
+            bet_time TIME (0) NOT NULL,
+            bet_size int NOT NULL
+        );
+        '''
         cursor.executescript(table_script)
         connection.commit()
 
@@ -155,3 +182,27 @@ def fetch_records():
         cursor.execute("SELECT * FROM User")
         data = cursor.fetchall()
         return data
+
+def placeBet(userID,eventID,catID,betValue):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        last_id = cursor.execute("SELECT * FROM UsersBets ORDER BY ID DESC LIMIT 1").fetchall()
+        if not last_id: last_id = 0
+        else: last_id = last_id[0][0] + 1
+        betTime = datetime.now().strftime("%H:%M:%S")
+        cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_time, bet_size) VALUES(?,?,?,?,?,?)",(last_id, eventID, userID, catID, betTime, betValue)).fetchall()
+
+def get_events():
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        events = cursor.execute("SELECT * FROM EventSchedule").fetchall()
+        return events
+
+def insert_event(date, startTime):
+    print(date, startTime)
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        last_id = cursor.execute("SELECT * FROM EventSchedule ORDER BY ID DESC LIMIT 1").fetchall()
+        if not last_id: last_id = 0
+        else: last_id = last_id[0][0] + 1
+        cursor.execute("INSERT INTO EventSchedule(ID, event_date, event_start_time) VALUES(?,?,?)",(last_id, date, startTime)).fetchall()

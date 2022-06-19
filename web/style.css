@@ -121,7 +121,7 @@ button:hover{
 #scrollableArea{
     height: 100%;
     white-space: nowrap; 
-    width: fit-content;
+    /* width: fit-content; */
     background: linear-gradient(rgba(29, 31, 34, 0), rgba(0,0,0,0.76));
 }
 #bet{
@@ -171,6 +171,68 @@ button:hover{
     background: linear-gradient(rgba(29, 31, 34, 0), rgba(0,0,0,0.76));
     border: 1px white solid;
     box-shadow: 1px 1px 5px white inset;
+}
+#selected-event{
+    color: white;
+    background: linear-gradient(-45deg, rgba(29, 31, 34, 0), rgba(0,0,0,0.76));
+    padding: 2% 5%;
+}
+.addBet{
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+.addBet > label{
+    position: absolute;
+    left: 20%;
+    margin: 0 auto;
+    top: -50%;
+    color: white;
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    max-width: 60%;
+}
+.addBet > button{
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    padding: 5%;
+}
+.addBet > label > input{
+    border: none;
+    border-bottom: 1px solid grey;
+    text-align: center;
+    position: relative;
+    padding: 0;
+    max-width: 70%;
+}
+
+#no-cats-selected{
+    text-align: center;
+    padding: 20%;
+    color: white;
+}
+#eventListDropdown{
+    position: relative;
+    display: inline-block;
+    padding-bottom: 2%;
+}
+#dropdown-no-content{
+    position: relative;
+    display: inline-block;
+    color: white;
+    background-color: black;
+    border: 1px rgba(29, 31, 34, 0.90) solid;;
+    padding: 20px;
+}
+.dropdown-content.false{
+    visibility: hidden;
+}
+
+.dropdown-content.true{
+    visibility: visible;
 }
 
 /*Curse Racing State*/

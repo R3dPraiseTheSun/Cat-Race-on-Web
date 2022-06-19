@@ -19,8 +19,7 @@ getPages();
 
 Utils.changePage(0);
 
-if(document.cookie.includes('sessionID'))
-    console.log(document.cookie.split('sessionID=')[1]);
+if(document.cookie.includes('sessionID')){
     let formData ={
         cookie: document.cookie.split('sessionID=')[1].split(':')[0],
         clientID: document.cookie.split('sessionID=')[1].split(':')[1]
@@ -31,7 +30,6 @@ if(document.cookie.includes('sessionID'))
         data: formData,
         dataType: "json",
         success: function(data){
-            console.log(data);
             LoginFunc.logStatus(true);
             LoginFunc.loggedInUserStatus(data.user);
             LoginFunc.UserIdStatus(data.id);
@@ -47,5 +45,5 @@ if(document.cookie.includes('sessionID'))
         }).done(function() {
         //console.log("DEBUG:login done");
     });
-
+}
 export {pageMap};

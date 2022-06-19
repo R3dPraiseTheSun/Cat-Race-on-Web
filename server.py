@@ -1,5 +1,6 @@
 import base64
 from cmath import log
+from datetime import datetime, timedelta
 from socketserver import ThreadingMixIn
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
@@ -70,6 +71,50 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		print(self.path)
 		self.data = self.rfile.read(int(self.headers['Content-Length'])).decode('utf-8')
 		print(self.data)
+
+		if(self.path == "/web/serverTestEvents.py"):
+			dbFuncs.insert_event(datetime.now().strftime("%d/%m/%Y"), (datetime.now() + timedelta(minutes=120)).strftime("%H:%M:%S"))
+			response = {
+				'response': 'yes'
+			}
+			json_string = json.dumps(response).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
+
+		if(self.path == "/web/serverGetEvents.py"):
+			events = dbFuncs.get_events()
+			response = {
+				'eventList': events
+			}
+			json_string = json.dumps(response).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
+
+		if(self.path == "/web/serverPlaceBet.py"):
+			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
+			catID = self.data.split('&')[1][self.data.split('&')[1].index('catID')+6:]
+			betValue = self.data.split('&')[2][self.data.split('&')[2].index('betValue')+9:]
+			response = {
+				'response': 'placed ' + betValue+' on ' + catID + ' from ' + userID
+			}
+			json_string = json.dumps(response).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
 
 		if(self.path == "/web/serverContinousLogin.py"):
 			cookie = self.data.split('&')[0][self.data.split('&')[0].index('cookie')+7:]

@@ -19,6 +19,9 @@ export const loggedInUserStatus = function(value){
 export const UserIdStatus = function(value){
     UserId=value;
 }
+export const GetUserId = function(value){
+    return UserId;
+}
 
 //define the modal
 let login=`
