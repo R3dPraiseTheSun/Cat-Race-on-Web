@@ -185,7 +185,7 @@ const eventsDropdown = function(){
 
 const selectEventHTML = function(){
     if(selectEvent!=null)
-        return `<div id="selected-event"><h2>Selected Event: ${selectEvent}</h2></div>`
+        return `<div id="selected-event"><h2>Selected Event: ${selectEvent}|| Starting Time: ${eventList[selectEvent]}</h2></div>`
     return ``
 }
 

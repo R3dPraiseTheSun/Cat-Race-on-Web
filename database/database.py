@@ -78,15 +78,15 @@ def create_table():
         );
         '''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,1)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,2)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,1)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,2)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,1)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,2)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,1)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,2)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,1)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,2)'''
         # cursor.executescript(table_script)
 
         #Bets Table
@@ -99,6 +99,7 @@ def create_table():
             event_id int NOT NULL,
             client_id int NOT NULL,
             cat_id int NOT NULL,
+            bet_date DATE NOT NULL,
             bet_time TIME (0) NOT NULL,
             bet_size int NOT NULL
         );
@@ -219,7 +220,8 @@ def place_bet(userID,eventID,catID,betValue):
             if not last_id: last_id = 0
             else: last_id = last_id[0][0] + 1
             betTime = datetime.now().strftime("%H:%M:%S")
-            cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_time, bet_size) VALUES(?,?,?,?,?,?)",(last_id, eventID, userID, catID, betTime, betValue)).fetchall()
+            betDate = datetime.now().date().strftime("%d/%m/%Y")
+            cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_date, bet_time, bet_size) VALUES(?,?,?,?,?,?,?)",(last_id, eventID, userID, catID, betDate, betTime, betValue)).fetchall()
             return True
         return False
 def get_bets(userID):
@@ -241,6 +243,14 @@ def insert_event(date, startTime):
         if not last_id: last_id = 0
         else: last_id = last_id[0][0] + 1
         cursor.execute("INSERT INTO EventSchedule(ID, event_date, event_start_time) VALUES(?,?,?)",(last_id, date, startTime)).fetchall()
+
+def get_history_data_from_user(userID):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        return cursor.execute('''SELECT event_id, Cats.name, bet_size, bet_date, bet_time  FROM UsersBets JOIN
+        EventSchedule ON UsersBets.event_id=EventSchedule.ID JOIN
+        Cats ON UsersBets.cat_id=Cats.ID WHERE client_id==?;''',
+        (userID, )).fetchall()
 
 def get_closest_event():
     with sqlite3.connect(DB_NAME) as connection:

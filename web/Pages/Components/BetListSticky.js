@@ -28,15 +28,15 @@ const BetList = function(){
 }
 const renderBets = function(){
     let eventListData = getEventList();
-    // console.log(eventListData, betList);
+    if(eventListData.length == 0) return ``;
     var BetListHTML=``;
     for(let bet of betList.betList)
-        if(eventListData.includes(bet[1]))
+        if(eventListData[0].includes(bet[1]))
         BetListHTML += `
             <div class="separator"></div>
             <h4>Bet on Event:${bet[1]}</h4>
-            <h5>Cat: ${betList.catName[bet[3]][1]} with ${bet[5]} chips</h5>
-            <h5>at ${bet[4]}</h5>
+            <h5>Cat: ${betList.catName[bet[3]][1]} with ${bet[6]} chips</h5>
+            <h5>at ${bet[4]} - ${bet[5]}</h5>
             <div class="separator"></div>
         `;
     return BetListHTML;
@@ -52,6 +52,10 @@ export const getStickyBets = function(){
             document.getElementById('root').appendChild(stickyBetsNode);
         }
     }
+}
+
+export function getBetList(){
+    return betList;
 }
 
 export {betList}

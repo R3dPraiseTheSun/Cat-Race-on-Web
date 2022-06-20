@@ -398,7 +398,7 @@ img.hidden, img.hidden{
 height: fit-content;
 }
 /*Financiar*/
-#financiar:not(#financiar:last-child){
+#financiar{
     font-size: large;
     color: white;
     text-align: left;
@@ -407,14 +407,16 @@ height: fit-content;
     padding: 2%;    
     height: fit-content;
 }
-#financiar:last-child{
-    font-size: large;
-    color: white;
-    text-align: left;
-    background-color: black;
-    margin: 0% 5%;
-    padding: 2%;    
-    height: fit-content;
+#financiar > #historyTable{
+    text-align: center;
+    width: 100%;
+    background-color: rgba(50, 50, 50, 0.80);
+}
+#financiar > #historyTable > table{
+    width: 100%;
+}
+#financiar > #historyTable > table, th, td {
+    border:1px solid black;
 }
 #chips{
     width: 28px;

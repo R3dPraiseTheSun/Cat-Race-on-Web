@@ -22,14 +22,26 @@ const FinanciarData = function (){
         <article>
             <div id=financiar>
                 <h1>Balanta</h1>
-                <div><p>Disponibil:${balance}<img id = "chips" src="${resourcePath}chips.png "/></p></div>
+                <div><p>Disponibil:${balance}<img id = "chips" src="${resourcePath}chips.png"/></p></div>
             </div>
             <div id=financiar>
                 <h1>Adauga Bani</h1>
                 <div><label>Introdu suma <input id="addMoneyInput" type="number" min="0"/><button onClick="window.AddMoney()">ADD</button><img id = "cash" src="${resourcePath}cash.png"/></label></div>
             </div>
             <div id=financiar>
-                <h1>Istoric curse</h1>
+                <h1>Istoric Cont:</h1>
+                <div id="historyTable">
+                    <table>
+                        <tr>
+                            <th>Event</th>
+                            <th>Cat Name</th>
+                            <th>Bettet Amount</th>
+                            <th>Bet Date</th>
+                            <th>Status</th>
+                        </tr>
+                        ${getTableData()}
+                    </table>
+                </div>
             </div>
         </article>
     `);
@@ -39,6 +51,7 @@ function AddMoney(){
     $.ajax({
         type: "POST",
         url: "/web/serverAddBalance.py",
+        async:false,
         data:{
             UserId,
             amount,
@@ -73,6 +86,42 @@ function getMoney(){
         }).done(() => {
             //console.log("DEBUG:BALANCE");
         });
+    }
+}
+function getTableData(){
+    let tableData = [];
+    var tableDataHTML = ``;
+    if(LoginFunc.isLogged)
+    {
+        $.ajax({
+            type: "POST",
+            url: "/web/serverGetTableData.py",
+            async:false,
+            data:{
+                UserId,
+            },
+            success: function(data){
+                tableData = data.tableData;
+                //console.log("DEBUG:balance success!", balance);
+            },
+            error: function(){
+                //console.log("DEBUG:failed balance!");
+            },
+        }).done(() => {
+            //console.log("DEBUG:BALANCE");
+        });
+        for(let tableRow of tableData){
+            tableDataHTML += `
+            <tr>
+                <td>${tableRow[0]}</td>
+                <td>${tableRow[1]}</td>
+                <td>${tableRow[2]}</td>
+                <td>${tableRow[3]} - ${tableRow[4]}</td>
+                <td>/*TO DO*/</td>
+            </tr>
+            `
+        }
+        return tableDataHTML;
     }
 }
 

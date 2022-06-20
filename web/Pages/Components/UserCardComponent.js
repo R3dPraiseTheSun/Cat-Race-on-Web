@@ -1,6 +1,7 @@
 import * as LoginFunc from "./Login.js";
 import { GetBalance } from "../Financiar/Financiar.js";
 
+const resourcePath = "./resources/";
 
 export const buildUserCard = function(){
     const userLogged = LoginFunc.isLogged;
@@ -9,7 +10,7 @@ export const buildUserCard = function(){
     const userCardData = function(){
         return (`
             <p>Username: ${username}</p>
-            <p>Balance: ${balance}</p>
+            <p>Balance: ${balance}<img id = "chips" src="${resourcePath}chips.png"/></p>
         `);
     }
     if(userLogged){

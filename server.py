@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import base64
 from cmath import log
 from datetime import datetime, timedelta
@@ -126,10 +127,28 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(json_string)
 
+		if(self.path == "/web/serverGetTableData.py"):
+			userID = self.data.split('UserId=')[1]
+			tableData = dbFuncs.get_history_data_from_user(userID)
+			response = {
+				'tableData': tableData
+			}
+			json_string = json.dumps(response).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
+			
 		if(self.path == "/web/serverGetBets.py"):
 			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
 			betList = dbFuncs.get_bets(userID)
-			catStat = dbFuncs.get_cat_name(betList[0][3])
+			catStat = 'empty'
+			print(betList)
+			if len(betList) > 0:
+				catStat = dbFuncs.get_cat_name(betList[0][3])
 			response = {
 				'betList': betList,
 				'catName': catStat
@@ -142,7 +161,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			)
 			self.end_headers()
 			self.wfile.write(json_string)
-
+			
 		if(self.path == "/web/serverPlaceBet.py"):
 			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
 			catID = self.data.split('&')[1][self.data.split('&')[1].index('catID')+6:]
