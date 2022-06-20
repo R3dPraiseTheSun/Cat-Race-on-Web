@@ -77,18 +77,6 @@ def create_table():
             event_id int NOT NULL
         );
         '''
-        # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,2)'''
-        # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,2)'''
-        # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,2)'''
-        # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,2)'''
-        # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,2)'''
-        # cursor.executescript(table_script)
-
         #Bets Table
 
         # table_script = '''DROP TABLE UsersBets'''
@@ -140,6 +128,7 @@ def update_balance(userID, newBalance):
         """function to insert record inside table""" 
         cursor.execute("UPDATE Financial SET balance=? WHERE ID==?",(newBalance, userID)).fetchall()
         connection.commit()
+
 def get_balance(userID):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
@@ -198,8 +187,11 @@ def check_records(email, password):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
         correct = cursor.execute("SELECT * FROM User WHERE Email == ? AND Password == ?",(email,password)).fetchall()
-        if not correct: return 0
+        if not correct: 
+            connection.commit()
+            return 0
         else:
+            connection.commit()
             return correct
 
 def fetch_records():
@@ -208,6 +200,7 @@ def fetch_records():
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM User")
         data = cursor.fetchall()
+        connection.commit()
         return data
 
 def place_bet(userID,eventID,catID,betValue):
@@ -222,6 +215,7 @@ def place_bet(userID,eventID,catID,betValue):
             betTime = datetime.now().strftime("%H:%M:%S")
             betDate = datetime.now().date().strftime("%d/%m/%Y")
             cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_date, bet_time, bet_size) VALUES(?,?,?,?,?,?,?)",(last_id, eventID, userID, catID, betDate, betTime, betValue)).fetchall()
+            connection.commit()
             return True
         return False
 def get_bets(userID):
@@ -242,7 +236,17 @@ def insert_event(date, startTime):
         last_id = cursor.execute("SELECT * FROM EventSchedule ORDER BY ID DESC LIMIT 1").fetchall()
         if not last_id: last_id = 0
         else: last_id = last_id[0][0] + 1
+
+        #Add all cats to newly added event
         cursor.execute("INSERT INTO EventSchedule(ID, event_date, event_start_time) VALUES(?,?,?)",(last_id, date, startTime)).fetchall()
+        cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,?)",(last_id, )).fetchall()
+        cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,?)",(last_id, )).fetchall()
+        cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,?)",(last_id, )).fetchall()
+        cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,?)",(last_id, )).fetchall()
+        cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,?)",(last_id, )).fetchall()
+
+        connection.commit()
+
 
 def get_history_data_from_user(userID):
     with sqlite3.connect(DB_NAME) as connection:

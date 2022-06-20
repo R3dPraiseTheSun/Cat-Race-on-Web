@@ -103,7 +103,10 @@ const getCats=function catDB(){
     var CATS = ``;
     for(let cat of catsArray){
         let currentBet = 0;
-        for(let bet of bets) if(bet[1] == selectEvent && cat.catID == bet[3]) currentBet=bet[5];
+        if(bets != null)
+            for(let bet of bets) 
+                if(bet[1] == selectEvent && cat.catID == bet[3])
+                    currentBet=bet[6];
         CATS +=`
         <div id="${cat.catID}" class="pisica" onclick="window.showModalS(event);">
             <h1>${cat.catName}</h1>
@@ -119,11 +122,22 @@ const getCats=function catDB(){
 };
 
 window.testEventSystem = () =>{
+    var eventTime = $("#newEventInputData").val();
+    // console.log(eventTime.split("T")[0].split('-')[2]+'/'+
+    // eventTime.split("T")[0].split('-')[1]+'/'+
+    // eventTime.split("T")[0].split('-')[0],
+    // eventTime.split("T")[1]);
+    let formData = {
+        "date":eventTime.split("T")[0].split('-')[2]+'/'+
+        eventTime.split("T")[0].split('-')[1]+'/'+
+        eventTime.split("T")[0].split('-')[0],
+        "time":eventTime.split("T")[1]
+    }
     $.ajax({
         type: "POST",
-        url: "/web/serverTestEvents.py",
+        url: "/web/serverCreateEvent.py",
+        data: formData,
         success: function(data){
-            console.log(data);
             //console.log("DEBUG:cats success!");
         },
         error: function(){
@@ -185,7 +199,9 @@ const eventsDropdown = function(){
 
 const selectEventHTML = function(){
     if(selectEvent!=null)
-        return `<div id="selected-event"><h2>Selected Event: ${selectEvent}|| Starting Time: ${eventList[selectEvent]}</h2></div>`
+        for(let event of eventList)
+            if(event[0]==selectEvent)
+                return `<div id="selected-event"><h2>Selected Event: ${event[0]}|| Starting Time: ${event[1]} - ${event[2]}</h2></div>`
     return ``
 }
 
@@ -208,8 +224,8 @@ const Article = function curseBasedOnState(){
                 </div>
                 <div id="bet">
                     <div id="debugBtn">
-                        <button onclick="window.curseStateChanger(1);">Change State</button>
-                        <button onclick="window.testEventSystem();">Test Event Update</button>
+                        <label>Number of Laps:<input type="number"/><button onclick="window.curseStateChanger(1);">Simulate Event</button></label>
+                        <label>Set a New Event:<input id="newEventInputData" type="datetime-local" value="${AddMinutesToDate(Date.now(),10)}" min="${AddMinutesToDate(Date.now(),10)}"><button onclick="window.testEventSystem();">Add Event</button>
                     </div>
                 </div>
             </div>
@@ -219,6 +235,12 @@ const Article = function curseBasedOnState(){
         return Racing(catsArray);
     }
 };
+
+function AddMinutesToDate(date, minutes) {
+    let minDate = new Date(date + minutes*60000);
+    return `${minDate.getFullYear()}-${("0" + (minDate.getMonth() + 1)).slice(-2)}-${("0" + (minDate.getDate())).slice(-2)}T${("0" + (minDate.getHours())).slice(-2)}:${("0" + (minDate.getMinutes())).slice(-2)}`;
+}
+
 var curseHTML='';
 export default function buildRace(){
     curseHTML = 

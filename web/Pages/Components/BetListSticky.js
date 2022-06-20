@@ -30,15 +30,16 @@ const renderBets = function(){
     let eventListData = getEventList();
     if(eventListData.length == 0) return ``;
     var BetListHTML=``;
-    for(let bet of betList.betList)
+    for(let bet of betList.betList){
         if(eventListData[0].includes(bet[1]))
         BetListHTML += `
             <div class="separator"></div>
             <h4>Bet on Event:${bet[1]}</h4>
-            <h5>Cat: ${betList.catName[bet[3]][1]} with ${bet[6]} chips</h5>
+            <h5>Cat: ${''} with ${bet[6]} chips</h5>
             <h5>at ${bet[4]} - ${bet[5]}</h5>
             <div class="separator"></div>
         `;
+    }
     return BetListHTML;
 }
 

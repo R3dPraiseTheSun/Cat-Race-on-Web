@@ -99,8 +99,11 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			self.end_headers()
 			self.wfile.write(json_string)
 
-		if(self.path == "/web/serverTestEvents.py"):
-			dbFuncs.insert_event(datetime.now().strftime("%d/%m/%Y"), (datetime.now() + timedelta(minutes=120)).strftime("%H:%M:%S"))
+		if(self.path == "/web/serverCreateEvent.py"):
+			dateData = self.data.split('&')[0][self.data.split('&')[0].index('date')+5:].replace('%2F','/')
+			timeData = self.data.split('&')[1][self.data.split('&')[1].index('time')+5:].replace('%3A',':')
+			print(dateData, timeData)
+			dbFuncs.insert_event(dateData, timeData)
 			response = {
 				'response': 'yes'
 			}
@@ -145,10 +148,9 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		if(self.path == "/web/serverGetBets.py"):
 			userID = self.data.split('&')[0][self.data.split('&')[0].index('userID')+7:]
 			betList = dbFuncs.get_bets(userID)
-			catStat = 'empty'
-			print(betList)
-			if len(betList) > 0:
-				catStat = dbFuncs.get_cat_name(betList[0][3])
+			catStat = []
+			for bet in betList:
+				catStat.append(dbFuncs.get_cat_name(bet[3]))
 			response = {
 				'betList': betList,
 				'catName': catStat
