@@ -16,6 +16,9 @@ export const logStatus = function(value){
 export const loggedInUserStatus = function(value){
     loggedInUser=value;
 }
+export const GetLoggedInUser = function(value){
+    return loggedInUser;
+}
 export const UserIdStatus = function(value){
     UserId=value;
 }

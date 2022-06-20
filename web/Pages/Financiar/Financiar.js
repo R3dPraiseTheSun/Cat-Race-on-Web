@@ -10,6 +10,12 @@ const resourcePath = "./resources/";
 window.AddMoney = AddMoney;
 
 var balance = 0;
+
+export const GetBalance = function(){
+    getMoney();
+    return balance;
+}
+
 const FinanciarData = function (){
     getMoney();
     return(`
@@ -53,6 +59,7 @@ function getMoney(){
         $.ajax({
             type: "POST",
             url: "/web/serverGetBalance.py",
+            async:false,
             data:{
                 UserId,
             },

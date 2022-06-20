@@ -148,9 +148,9 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			catID = self.data.split('&')[1][self.data.split('&')[1].index('catID')+6:]
 			betValue = self.data.split('&')[2][self.data.split('&')[2].index('betValue')+9:]
 			eventID = self.data.split('&')[3][self.data.split('&')[3].index('eventID')+8:]
-			dbFuncs.place_bet(userID,eventID,catID,betValue)
+			status = dbFuncs.place_bet(userID,eventID,catID,betValue)
 			response = {
-				'response': 'placed ' + betValue+' on event no. ' + eventID + ' on cat: ' + catID + ' from ' + userID
+				'response': status
 			}
 			json_string = json.dumps(response).encode('utf-8')
 			self.send_response(200)

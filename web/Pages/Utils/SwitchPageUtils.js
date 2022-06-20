@@ -1,5 +1,6 @@
 import  * as render from "../../render.js";
 import { getStickyBets } from "../Components/BetListSticky.js";
+import { buildUserCard } from "../Components/UserCardComponent.js";
 
 let baseURL = document.URL;
 baseURL = baseURL.split('#')[0];
@@ -45,4 +46,5 @@ export function changePage(number){
     };
     processURL(response, urlPath);
     getStickyBets();
+    buildUserCard();
 }

@@ -1,3 +1,4 @@
+import { getEventList } from "../Curse/Curse.js";
 import { GetUserId, isLogged } from "./Login.js";
 
 let betList = {
@@ -26,8 +27,11 @@ const BetList = function(){
     });
 }
 const renderBets = function(){
+    let eventListData = getEventList();
+    // console.log(eventListData, betList);
     var BetListHTML=``;
     for(let bet of betList.betList)
+        if(eventListData.includes(bet[1]))
         BetListHTML += `
             <div class="separator"></div>
             <h4>Bet on Event:${bet[1]}</h4>

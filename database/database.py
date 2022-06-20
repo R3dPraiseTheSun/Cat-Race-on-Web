@@ -78,15 +78,15 @@ def create_table():
         );
         '''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,0)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,1)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,0)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,1)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,0)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,1)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,0)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(3,1)'''
         # cursor.executescript(table_script)
-        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,0)'''
+        # table_script = '''INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,1)'''
         # cursor.executescript(table_script)
 
         #Bets Table
@@ -212,12 +212,16 @@ def fetch_records():
 def place_bet(userID,eventID,catID,betValue):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
-        last_id = cursor.execute("SELECT * FROM UsersBets ORDER BY ID DESC LIMIT 1").fetchall()
-        if not last_id: last_id = 0
-        else: last_id = last_id[0][0] + 1
-        betTime = datetime.now().strftime("%H:%M:%S")
-        cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_time, bet_size) VALUES(?,?,?,?,?,?)",(last_id, eventID, userID, catID, betTime, betValue)).fetchall()
-
+        userBalance = cursor.execute("SELECT balance FROM Financial WHERE ID==?",(userID,)).fetchall()
+        if int(betValue) < userBalance[0][0]:
+            cursor.execute("UPDATE Financial SET balance=? WHERE ID==?", (userBalance[0][0] - int(betValue), userID))
+            last_id = cursor.execute("SELECT * FROM UsersBets ORDER BY ID DESC LIMIT 1").fetchall()
+            if not last_id: last_id = 0
+            else: last_id = last_id[0][0] + 1
+            betTime = datetime.now().strftime("%H:%M:%S")
+            cursor.execute("INSERT INTO UsersBets(ID, event_id, client_id, cat_id, bet_time, bet_size) VALUES(?,?,?,?,?,?)",(last_id, eventID, userID, catID, betTime, betValue)).fetchall()
+            return True
+        return False
 def get_bets(userID):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()

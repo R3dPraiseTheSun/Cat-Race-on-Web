@@ -41,7 +41,7 @@ class CatTrack{
     currentStage;
     maxStage;
     competingCats = [];
-    winnerCats = [];
+    finishList = [];
     constructor(){
         this.currentStage=0;
         this.maxStage=5;
@@ -58,10 +58,13 @@ class CatTrack{
         if(track.currentStage > 0) $("img#startline.showing").attr("class", "hidden");
         if(track.currentStage >= track.maxStage) $("img#finishline.hidden").attr("class", "showing");
     }
-    addWinner = function(winningCat){
-        console.log('We have a winner: '+winningCat);
-        if(this.winnerCats.length < 3)
-            this.winnerCats.push(winningCat);
+    addWinner = function(finishedCat){
+        this.finishList.push(finishedCat);
+        if($(".raceresults").remove())
+        var resultNode = document.createElement("div");
+        resultNode.className = "raceresults";
+        resultNode.innerHTML = RaceResult();
+        $("#root").append(resultNode);
     }
 }
 
@@ -123,7 +126,15 @@ addEventListener("animationend",function listener(event){
     }
 });
 
-
+const RaceResult = function(){
+    console.log(track.finishList);
+    var RaceResultHTML=`<h2>Race Result: </h2>`;
+    for(let catNr in track.finishList){
+        console.log(catNr);
+        RaceResultHTML += `<h3 class="finish" id="No${catNr}">${track.finishList[catNr].name}</h3>`;
+    }
+    return RaceResultHTML;
+}
 
 var RacingComponent = ``;
 export const Racing = function setupRace(catList){

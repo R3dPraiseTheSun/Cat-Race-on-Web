@@ -9,13 +9,14 @@ import { GetUserId } from "../Components/Login.js";
 import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
 import { betList, getStickyBets } from "../Components/BetListSticky.js";
+import { PastEvent } from "../Utils/EventManager.js";
 
 var selectEvent = null;
 
 var statsModal = false;
 window.showModalS = (event) => {
     if(!statsModal)
-        {Statistics.showModal(event.clientX, event.clientY, catsArray[event.target.id].catName, event.target.id); statsModal=!statsModal}
+        {if(catsArray[event.target.id] !== undefined) {Statistics.showModal(event.clientX, event.clientY, catsArray[event.target.id].catName, event.target.id); statsModal=!statsModal}}
     else
         {Statistics.closeModal(); statsModal=!statsModal}
 }
@@ -40,7 +41,7 @@ window.selectEvent = (eventId) => {
 }
 window.placeBet = (catID) => {
     let betValue = $(`${"#bet"+catID}`).val();
-    console.log(GetUserId() + ' placed ' + betValue + ' on ' + catID + ' on event no. ' + selectEvent);
+    //console.log(GetUserId() + ' placed ' + betValue + ' on ' + catID + ' on event no. ' + selectEvent);
     let formData = {
         "userID": GetUserId(),
         "catID": catID,
@@ -52,7 +53,14 @@ window.placeBet = (catID) => {
         url: "/web/serverPlaceBet.py",
         data: formData,
         success: function(data){
-            getStickyBets();
+            if(data.response)
+                getStickyBets();
+            else{
+                $(`#placeBet${catID}`).text('Invalid Sum');
+                setTimeout(()=>{
+                    $(`#placeBet${catID}`).text('Place Bet')
+                },1000);
+            }
             //console.log(data);
             //console.log("DEBUG:cats success!");
         },
@@ -102,7 +110,7 @@ const getCats=function catDB(){
             <img src="${resourcePath}${cat.catName}.png" alt="Racing cat" />
             <div class="addBet">
                 <label>Introdu suma: <input id="bet${cat.catID}" type="number" placeholder="${currentBet}" min="0"/><img id = "chips" src="${resourcePath}chips.png "/></label>
-                <button onclick="window.placeBet(${cat.catID})">${buttonName(currentBet)}</button>
+                <button id="placeBet${cat.catID}" onclick="window.placeBet(${cat.catID})">${buttonName(currentBet)}</button>
             </div>
         </div>
         `;
@@ -127,17 +135,19 @@ window.testEventSystem = () =>{
     
 }
 
+let eventList = [];
+
 const eventsDropdown = function(){
     var isOpen=false;
 
     const ScheduledEvents = function(){
-        let eventList = [];
+        eventList = [];
         $.ajax({
             type: "POST",
             url: "/web/serverGetEvents.py",
             async:false,
             success: function(data){
-                for(let row of data.eventList) eventList.push(row);
+                for(let row of data.eventList) {if(PastEvent(row)) eventList.push(row)};
                 //console.log("DEBUG:cats success!");
             },
             error: function(){
@@ -177,6 +187,10 @@ const selectEventHTML = function(){
     if(selectEvent!=null)
         return `<div id="selected-event"><h2>Selected Event: ${selectEvent}</h2></div>`
     return ``
+}
+
+export const getEventList = function(){
+    return eventList;
 }
 
 const resourcePath = "./resources/";

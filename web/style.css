@@ -492,3 +492,49 @@ height: fit-content;
 #stickyBetsHolder > *{
     margin: 0;
 }
+
+/*Race Result*/
+.raceresults{
+    position: absolute;
+    top: 35%;
+    right: 0;
+    width: 10%;
+    border-top: 2px black solid;
+    border-bottom: 2px black solid;
+    text-align: center;
+    color: rgb(195, 195, 195);
+}
+.raceresults > h2{
+    margin: 0 auto;
+    width: 90%;
+    border-bottom: 1px black solid;
+}
+.raceresults > .finish{
+    width: fit-content;
+    margin: 5px auto;
+}
+.raceresults > #No0{
+    color: goldenrod;
+    border-bottom: 1px goldenrod double;
+}
+.raceresults > #No1{
+    color: rgb(95, 95, 95);
+    border-bottom: 1px rgb(95, 95, 95) solid;
+}
+.raceresults > #No2{
+    color: rgb(96, 61, 21);
+    border-bottom: 1px rgb(96, 61, 21) dotted;
+}
+#userCard{
+    position: absolute;
+    padding: 1% 2%;
+    top: 1%;
+    right: 9.5%;
+    max-width: 15%;
+    border-radius: 10px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    text-align: center;
+    color: rgb(195, 195, 195);
+    background: linear-gradient(90deg, rgba(29, 31, 34, 0), rgba(0,0,0,0.76) 90%, rgba(100, 100, 100, 1), rgba(0,0,0,0.76)) !important;
+}
