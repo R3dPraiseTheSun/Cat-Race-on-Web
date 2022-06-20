@@ -4,9 +4,12 @@ class Cat{
     speed=10;
     racingLayer=0;
     nextLapTime=0;
+    didFinish = false;
     constructor(name,id){
+        this.racingLayer = 0;
         this.name = name;
         this.id = id;
+        this.didFinish = false;
     }
     get speed(){
         return this.speed;
@@ -19,7 +22,14 @@ class Cat{
     }
     nextStage = function(){
         this.racingLayer+=1;
-        if(this.racingLayer >= track.maxStage) track.addWinner(this);
+        if(this.racingLayer == track.maxStage+1) {
+            this.racingLayer = track.maxStage+1;
+            if(!this.didFinish){
+                this.didFinish=true;
+                track.addWinner(this);
+            }
+            
+        }
         var racingLayerEvent = new CustomEvent("racing-layer-change", {
             "detail": {"racingLayer": this.racingLayer}
         });
@@ -34,7 +44,7 @@ class CatTrack{
     winnerCats = [];
     constructor(){
         this.currentStage=0;
-        this.maxStage=10;
+        this.maxStage=5;
     }
     set competingCats(catsArray){
         this.competingCats = catsArray;
@@ -43,10 +53,14 @@ class CatTrack{
         return this.competingCats;
     }
     setStage = function(newStage){
-        this.currentStage=newStage;
+        if(newStage <= this.maxStage)
+            this.currentStage=newStage;
+        if(track.currentStage > 0) $("img#startline.showing").attr("class", "hidden");
+        if(track.currentStage >= track.maxStage) $("img#finishline.hidden").attr("class", "showing");
     }
     addWinner = function(winningCat){
-        if(winnerCats.length < 3)
+        console.log('We have a winner: '+winningCat);
+        if(this.winnerCats.length < 3)
             this.winnerCats.push(winningCat);
     }
 }
@@ -55,9 +69,11 @@ document.addEventListener("racing-layer-change", function(e){
     if(track.currentStage < e.detail.racingLayer) track.setStage(e.detail.racingLayer);
     let racerImages = document.querySelectorAll('.catHolder');
     for(let cat of track.competingCats){
-        if(cat.racingLayer >= track.currentStage) {racerImages[cat.id].style.visibility = 'visible';}
+        //console.log(cat.name+' is on layer '+cat.racingLayer+' and track current layer is: '+track.currentStage+' out of '+track.maxStage);
+        if(cat.racingLayer == track.currentStage) {racerImages[cat.id].style.visibility = 'visible';}
         else {racerImages[cat.id].style.visibility = 'hidden';}
     }
+    
 })
 
 
@@ -78,7 +94,7 @@ function generateCats(catList){
         catsArray.push(objCat);
         RacingCats += `
         <div id="Cat${position}" class="catHolder" style="display:inline">
-        <img style="top:${pivotPoint.top}px; left:${pivotPoint.left}px; animation: movement${position} ${10/objCat.speed}s; animation-timing-function: linear;" src=${resourcePath}${cat.catName}.png>
+            <img style="top:${pivotPoint.top}px; left:${pivotPoint.left}px; animation: movement${position} ${10/objCat.speed}s; animation-timing-function: linear;" src="${resourcePath}${cat.catName}.png"/>
         </div>
         `;
         position+=1;
@@ -117,8 +133,10 @@ export const Racing = function setupRace(catList){
             <div id="racingPanel">
                 <h1>Racing now!</h1>
                 <div class="backgroundHolder">
-                    <img src=${resourcePath}/catTrackBG.jpeg>
-                    <img src=${resourcePath}/catTrack.png>
+                    <img src="${resourcePath}catTrackBG.jpeg"/>
+                    <img src="${resourcePath}catTrack.png"/>
+                    <img id="startline" class="showing" src="${resourcePath}startLine.png"/>
+                    <img id="finishline" class="hidden" src="${resourcePath}finishLine.png"/>
                 </div>
                 <div class="competingCats">
                     ${generateCats(catList)}

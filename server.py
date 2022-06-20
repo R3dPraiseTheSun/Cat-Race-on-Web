@@ -27,6 +27,19 @@ def encodePass(password):
 	password = base64.b64encode(password)
 	return password
 
+closestEvent = dbFuncs.get_closest_event()
+date = datetime.strptime(closestEvent[0][1], "%d/%m/%Y")
+time = datetime.strptime(closestEvent[0][2], "%H:%M:%S")
+dt1 = datetime(date.year,date.month,date.day,time.hour,time.minute,time.second) 
+dt2 = datetime.now()
+timeDiff = 0
+if(dt1 > dt2):
+	timeDiff = dt1-dt2
+	#print(dt1-dt2) #Time until next racing event
+else:
+	timeDiff = dt2-dt1
+	#print(dt2-dt1) #Time after event has started
+
 class RequestHandler(SimpleHTTPRequestHandler):
 	def do_GET(self):
 		myfile = self.path.split('?')[0] # After the "?" symbol not relevent here
@@ -71,6 +84,19 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		print(self.path)
 		self.data = self.rfile.read(int(self.headers['Content-Length'])).decode('utf-8')
 		print(self.data)
+
+		if(self.path == "/web/serverGetRacingState.py"):
+			response = {
+				'response': 'yes'
+			}
+			json_string = json.dumps(response).encode('utf-8')
+			self.send_response(200)
+			self.send_header(
+				'Content-type',
+				'application/json'
+			)
+			self.end_headers()
+			self.wfile.write(json_string)
 
 		if(self.path == "/web/serverTestEvents.py"):
 			dbFuncs.insert_event(datetime.now().strftime("%d/%m/%Y"), (datetime.now() + timedelta(minutes=120)).strftime("%H:%M:%S"))

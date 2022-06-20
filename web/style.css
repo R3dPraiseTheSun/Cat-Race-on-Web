@@ -254,6 +254,19 @@ button:hover{
     height: 0;
     margin: 0 auto;
 }
+img#startline.showing{
+    transform: rotate(90deg) scale(-0.147);
+    left: -40% !important;
+    top: 69.6%;
+}
+img#finishline.showing{
+    transform: rotate(90deg) scale(0.147);
+    left: 47% !important;
+    top: 69.6%;
+}
+img.hidden, img.hidden{
+    visibility: hidden;
+}
 #racingPanel > div > img{
     width: 90%;
     padding: 1%;

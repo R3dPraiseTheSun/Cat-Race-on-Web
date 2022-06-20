@@ -231,10 +231,15 @@ def get_events():
         return events
 
 def insert_event(date, startTime):
-    print(date, startTime)
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
         last_id = cursor.execute("SELECT * FROM EventSchedule ORDER BY ID DESC LIMIT 1").fetchall()
         if not last_id: last_id = 0
         else: last_id = last_id[0][0] + 1
         cursor.execute("INSERT INTO EventSchedule(ID, event_date, event_start_time) VALUES(?,?,?)",(last_id, date, startTime)).fetchall()
+
+def get_closest_event():
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        return cursor.execute("SELECT * FROM EventSchedule ORDER BY event_date,event_start_time asc").fetchall()
+
