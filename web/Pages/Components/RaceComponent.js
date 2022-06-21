@@ -1,3 +1,5 @@
+import { catTimesData, lapData } from "../Utils/RacingManager.js";
+
 class Cat{
     name;
     id;
@@ -42,9 +44,9 @@ class CatTrack{
     maxStage;
     competingCats = [];
     finishList = [];
-    constructor(){
+    constructor(numberOfLaps){
         this.currentStage=0;
-        this.maxStage=5;
+        this.maxStage=numberOfLaps;
     }
     set competingCats(catsArray){
         this.competingCats = catsArray;
@@ -79,8 +81,12 @@ document.addEventListener("racing-layer-change", function(e){
     
 })
 
-
-let track = new CatTrack();
+let track;
+export const StartTrack = (simulation, laps)=>{
+    if(!simulation)
+        console.log(catTimesData, lapData);
+    track = new CatTrack(laps);
+}
 
 const resourcePath = "./resources/";
 
@@ -130,7 +136,6 @@ const RaceResult = function(){
     console.log(track.finishList);
     var RaceResultHTML=`<h2>Race Result: </h2>`;
     for(let catNr in track.finishList){
-        console.log(catNr);
         RaceResultHTML += `<h3 class="finish" id="No${catNr}">${track.finishList[catNr].name}</h3>`;
     }
     return RaceResultHTML;
@@ -154,9 +159,7 @@ export const Racing = function setupRace(catList){
                 </div>
             </div>
             <div id="debugBtn">
-                <button onclick="window.curseStateChanger(0);">Change State</button>
-                <button onclick="window.finishRaceWin()">Finish Race Win</button>
-                <button onclick="window.finishRaceLost()">Finish Race Lost</button>
+                <button onclick="window.curseStateChanger(0);">Back to Curse</button>
             </div>
         </div>
     </article>

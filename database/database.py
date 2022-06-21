@@ -35,7 +35,8 @@ def create_table():
                         ID int NOT NULL,
                         Username VARCHAR(255),
                         Email VARCHAR(255) NOT NULL,
-                        Password VARCHAR(150)
+                        Password VARCHAR(150),
+                        admin int
                     );
                     '''
         cursor.executescript(table_script)
@@ -66,11 +67,13 @@ def create_table():
         #Event Table
         table_script = '''CREATE TABLE IF NOT EXISTS EventSchedule(
             ID int NOT NULL,
-            event_date DATE,
-            event_start_time TIME (0) NOT NULL
+            event_date DATE NOT NULL,
+            event_start_time TIME (0) NOT NULL,
+            number_of_laps int
         );
         '''
         cursor.executescript(table_script)
+
         #Cat Competitors
         table_script = '''CREATE TABLE IF NOT EXISTS CatAttendance(
             cat_id int NOT NULL,
@@ -93,12 +96,18 @@ def create_table():
         );
         '''
         cursor.executescript(table_script)
+        table_script = '''CREATE TABLE IF NOT EXISTS EventWinners(
+            event_id int NOT NULL,
+            cat_id int NOT NULL
+        );
+        '''
+        cursor.executescript(table_script)
         connection.commit()
 
 def get_cats(eventID):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
-        catIds = cursor.execute("SELECT cat_id FROM CatAttendance WHERE event_id==?",(eventID)).fetchall()
+        catIds = cursor.execute("SELECT cat_id FROM CatAttendance WHERE event_id==?",(eventID,)).fetchall()
         """function to insert record inside table""" 
         catsData = []
         for catId in catIds:
@@ -164,7 +173,7 @@ def insert_record(fullname, email, password):
             last_id = cursor.execute("SELECT * FROM User ORDER BY ID DESC LIMIT 1").fetchall()
             if not last_id: last_id = 0
             else: last_id = last_id[0][0] + 1
-            cursor.execute("INSERT INTO User(ID, Username, Email, Password) VALUES(?, ?, ?, ?)", (last_id, fullname, email, password))
+            cursor.execute("INSERT INTO User(ID, Username, Email, Password, admin) VALUES(?, ?, ?, ?, 0)", (last_id, fullname, email, password))
             data ={
                 "email":email,
                 "name":fullname
@@ -230,7 +239,7 @@ def get_events():
         events = cursor.execute("SELECT * FROM EventSchedule").fetchall()
         return events
 
-def insert_event(date, startTime):
+def insert_event(date, startTime, lapsData):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
         last_id = cursor.execute("SELECT * FROM EventSchedule ORDER BY ID DESC LIMIT 1").fetchall()
@@ -238,7 +247,7 @@ def insert_event(date, startTime):
         else: last_id = last_id[0][0] + 1
 
         #Add all cats to newly added event
-        cursor.execute("INSERT INTO EventSchedule(ID, event_date, event_start_time) VALUES(?,?,?)",(last_id, date, startTime)).fetchall()
+        cursor.execute("INSERT INTO EventSchedule(ID, event_date, event_start_time, number_of_laps) VALUES(?,?,?,?)",(last_id, date, startTime, lapsData)).fetchall()
         cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(0,?)",(last_id, )).fetchall()
         cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(1,?)",(last_id, )).fetchall()
         cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(2,?)",(last_id, )).fetchall()
@@ -259,5 +268,10 @@ def get_history_data_from_user(userID):
 def get_closest_event():
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
-        return cursor.execute("SELECT * FROM EventSchedule ORDER BY event_date,event_start_time asc").fetchall()
+        return cursor.execute("SELECT * FROM EventSchedule WHERE event_date>DATE() AND event_start_time > strftime('%H:%M', datetime('now', 'localtime')) ORDER BY event_date, event_start_time").fetchall()
+
+def insert_event_winner(eventID, catID):
+    with sqlite3.connect(DB_NAME) as connection:
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO EventWinners(event_id,cat_id) VALUES(?,?)", (eventID,catID)).fetchall()
 

@@ -1,3 +1,4 @@
+import asyncio
 from asyncio.windows_events import NULL
 import base64
 from cmath import log
@@ -6,13 +7,52 @@ from socketserver import ThreadingMixIn
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
 import secrets
-
 from numpy import blackman
 
+
 import database.database as dbFuncs
+import CatsLogic
 
 dbFuncs.create_connection(r"database\user_records.db")
 dbFuncs.create_table()
+
+racingNow = False
+async def setRace(delay, trackLaps, eventID):
+	try:
+		print("RACING STARTS IN ",delay," SECONDS!")
+		global racingNow
+		await asyncio.sleep(delay)
+		racingNow = True
+		print("RACING STARTS NOW ",racingNow)
+		catTrack = CatsLogic.CatTrack(5, trackLaps)
+		catTrack.generateSpeed()
+		finalTimes = catTrack.getFinalTimes()
+		dbFuncs.insert_event_winner(eventID, finalTimes.get('timeComplet')[0]['cat'])
+		return finalTimes
+	except KeyboardInterrupt:
+		print('KeyboardInterrupt')
+		exit()
+
+def getClosestEventTime():
+	closestEvent = dbFuncs.get_closest_event()
+	if len(closestEvent) == 0: return
+	laps = closestEvent[0][3]
+	print('event laps ',laps)
+	date = datetime.strptime(closestEvent[0][1], "%d/%m/%Y")
+	time = datetime.strptime(closestEvent[0][2], "%H:%M")
+	dt1 = datetime(date.year,date.month,date.day,time.hour,time.minute,time.second) 
+	dt2 = datetime.now()
+	timeDiff = 0
+	if(dt1 > dt2):
+		timeDiff = dt1-dt2 #Time until next racing event
+	else:
+		timeDiff = dt2-dt1 #Time after event has already started
+	delay = timeDiff.total_seconds()
+	returnData = {
+		"catInfo":asyncio.run(setRace(delay, laps, closestEvent[0][0])),
+		"totalLaps":laps
+	}
+	return returnData
 
 class ThreadingServer(ThreadingMixIn, HTTPServer):
     pass
@@ -28,18 +68,6 @@ def encodePass(password):
 	password = base64.b64encode(password)
 	return password
 
-closestEvent = dbFuncs.get_closest_event()
-date = datetime.strptime(closestEvent[0][1], "%d/%m/%Y")
-time = datetime.strptime(closestEvent[0][2], "%H:%M:%S")
-dt1 = datetime(date.year,date.month,date.day,time.hour,time.minute,time.second) 
-dt2 = datetime.now()
-timeDiff = 0
-if(dt1 > dt2):
-	timeDiff = dt1-dt2
-	#print(dt1-dt2) #Time until next racing event
-else:
-	timeDiff = dt2-dt1
-	#print(dt2-dt1) #Time after event has started
 
 class RequestHandler(SimpleHTTPRequestHandler):
 	def do_GET(self):
@@ -87,9 +115,13 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		print(self.data)
 
 		if(self.path == "/web/serverGetRacingState.py"):
+			global racingNow
+			catData = getClosestEventTime()
 			response = {
-				'response': 'yes'
+				'catData': catData,
+				'race': racingNow
 			}
+			racingNow = False
 			json_string = json.dumps(response).encode('utf-8')
 			self.send_response(200)
 			self.send_header(
@@ -102,8 +134,9 @@ class RequestHandler(SimpleHTTPRequestHandler):
 		if(self.path == "/web/serverCreateEvent.py"):
 			dateData = self.data.split('&')[0][self.data.split('&')[0].index('date')+5:].replace('%2F','/')
 			timeData = self.data.split('&')[1][self.data.split('&')[1].index('time')+5:].replace('%3A',':')
-			print(dateData, timeData)
-			dbFuncs.insert_event(dateData, timeData)
+			lapsData = self.data.split('&')[2][self.data.split('&')[2].index('laps')+5:]
+			# print(dateData, timeData, lapsData)
+			dbFuncs.insert_event(dateData, timeData, lapsData)
 			response = {
 				'response': 'yes'
 			}
@@ -303,8 +336,6 @@ class RequestHandler(SimpleHTTPRequestHandler):
 				)
 				self.end_headers()
 				self.wfile.write(json_string)
-
-
 
 try:
 	ThreadingServer(('127.0.0.1', 80), RequestHandler).serve_forever()

@@ -31,7 +31,7 @@ const renderBets = function(){
     if(eventListData.length == 0) return ``;
     var BetListHTML=``;
     for(let bet of betList.betList){
-        if(eventListData[0].includes(bet[1]))
+        if(eventListData[0][0]==bet[1])
         BetListHTML += `
             <div class="separator"></div>
             <h4>Bet on Event:${bet[1]}</h4>

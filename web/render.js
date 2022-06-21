@@ -9,6 +9,10 @@ import {updateNav} from "./Pages/Components/Navbar.js";
 
 import * as LoginFunc from "./Pages/Components/Login.js";
 
+import * as RacingManager from "./Pages/Utils/RacingManager.js";
+
+RacingManager;
+
 let pageArr=[];
 var pageMap;
 export function getPages(){

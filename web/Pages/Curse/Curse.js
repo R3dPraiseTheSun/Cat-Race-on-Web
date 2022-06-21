@@ -3,7 +3,7 @@ import {Header} from "../Components/Header.js";
 import {Footer} from "../Components/Footer.js";
 
 import * as finish from "../Components/FinishState.js";
-import { Racing } from "../Components/RaceComponent.js";
+import { Racing, StartTrack } from "../Components/RaceComponent.js";
 import { GetUserId } from "../Components/Login.js";
 
 import * as Utils from "../Utils/SwitchPageUtils.js";
@@ -24,6 +24,8 @@ window.showModalS = (event) => {
 var curseState = 0;
 window.curseStateChanger = (state) => {
     curseState =  state;
+    if(state == 0) selectEvent = null;
+    if(state == 2) StartTrack(true, $('#testLapsInput').val());
     Utils.changePage(1);
 }
 window.finishRaceWin = () => {
@@ -122,7 +124,10 @@ const getCats=function catDB(){
 };
 
 window.testEventSystem = () =>{
-    var eventTime = $("#newEventInputData").val();
+    var eventTime = $("#DateData").val();
+    console.log($("#DateData") ,$("#LapsData"));
+    var eventLaps = $("#LapsData").val();
+    console.log(eventTime, eventLaps);
     // console.log(eventTime.split("T")[0].split('-')[2]+'/'+
     // eventTime.split("T")[0].split('-')[1]+'/'+
     // eventTime.split("T")[0].split('-')[0],
@@ -131,13 +136,15 @@ window.testEventSystem = () =>{
         "date":eventTime.split("T")[0].split('-')[2]+'/'+
         eventTime.split("T")[0].split('-')[1]+'/'+
         eventTime.split("T")[0].split('-')[0],
-        "time":eventTime.split("T")[1]
+        "time":eventTime.split("T")[1],
+        "laps":eventLaps
     }
     $.ajax({
         type: "POST",
         url: "/web/serverCreateEvent.py",
         data: formData,
         success: function(data){
+            window.location.reload();
             //console.log("DEBUG:cats success!");
         },
         error: function(){
@@ -224,8 +231,12 @@ const Article = function curseBasedOnState(){
                 </div>
                 <div id="bet">
                     <div id="debugBtn">
-                        <label>Number of Laps:<input type="number"/><button onclick="window.curseStateChanger(1);">Simulate Event</button></label>
-                        <label>Set a New Event:<input id="newEventInputData" type="datetime-local" value="${AddMinutesToDate(Date.now(),10)}" min="${AddMinutesToDate(Date.now(),10)}"><button onclick="window.testEventSystem();">Add Event</button>
+                        <label>Number of Laps:<input id="testLapsInput" type="number" value="5"/><button onclick="window.curseStateChanger(2);">Simulate Event</button></label>
+                    </div>
+                    <div style="margin-top:20px"><p>(Admin Tool) Set a New Event:</p>
+                        <label>Date and Time:<input id="DateData" type="datetime-local" value="${AddMinutesToDate(Date.now(),10)}" min="${AddMinutesToDate(Date.now(),10)}"></label>
+                        <label>Number of Laps:<input id="LapsData" type"number" value="5"/></label>
+                        <button onclick="window.testEventSystem();">Add Event</button>
                     </div>
                 </div>
             </div>
