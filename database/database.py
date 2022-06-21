@@ -96,8 +96,9 @@ def create_table():
         );
         '''
         cursor.executescript(table_script)
+
         table_script = '''CREATE TABLE IF NOT EXISTS EventWinners(
-            event_id int NOT NULL,
+            event_id int NOT NULL PRIMARY KEY,
             cat_id int NOT NULL
         );
         '''
@@ -255,6 +256,7 @@ def insert_event(date, startTime, lapsData):
         cursor.execute("INSERT INTO CatAttendance(cat_id,event_id) VALUES(4,?)",(last_id, )).fetchall()
 
         connection.commit()
+        return last_id
 
 
 def get_history_data_from_user(userID):
@@ -268,10 +270,14 @@ def get_history_data_from_user(userID):
 def get_closest_event():
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
-        return cursor.execute("SELECT * FROM EventSchedule WHERE event_date>DATE() AND event_start_time > strftime('%H:%M', datetime('now', 'localtime')) ORDER BY event_date, event_start_time").fetchall()
+        return cursor.execute("SELECT * FROM EventSchedule WHERE event_date >= strftime('%d/%m/%Y', datetime('now', 'localtime')) AND event_start_time > strftime('%H:%M', datetime('now', 'localtime')) ORDER BY event_date, event_start_time").fetchall()
 
 def insert_event_winner(eventID, catID):
     with sqlite3.connect(DB_NAME) as connection:
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO EventWinners(event_id,cat_id) VALUES(?,?)", (eventID,catID)).fetchall()
+        try:
+            cursor.execute("INSERT INTO EventWinners(event_id,cat_id) VALUES(?,?)", (eventID,catID)).fetchall()
+            connection.commit()
+        except:
+            connection.commit()
 

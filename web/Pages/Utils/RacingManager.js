@@ -11,7 +11,8 @@ const checkRacingStatus = function(){
               catTimesData = data.catData.catInfo.timeComplet;
               lapData = data.catData.catInfo.lapTimesData;
               var totalLaps = data.catData.totalLaps;
-              StartTrack(false, totalLaps);
+              var eventID = data.catData.eventID;
+              StartTrack(false, totalLaps, eventID);
               window.curseStateChanger(1);
             }
             //console.log("DEBUG:cats success!");

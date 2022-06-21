@@ -24,13 +24,12 @@ class Cat{
     }
     nextStage = function(){
         this.racingLayer+=1;
-        if(this.racingLayer == track.maxStage+1) {
+        if(this.racingLayer >= track.maxStage+1) {
             this.racingLayer = track.maxStage+1;
             if(!this.didFinish){
                 this.didFinish=true;
                 track.addWinner(this);
-            }
-            
+            } 
         }
         var racingLayerEvent = new CustomEvent("racing-layer-change", {
             "detail": {"racingLayer": this.racingLayer}
@@ -82,10 +81,37 @@ document.addEventListener("racing-layer-change", function(e){
 })
 
 let track;
-export const StartTrack = (simulation, laps)=>{
-    if(!simulation)
-        console.log(catTimesData, lapData);
+let catsArray = [];
+var testRun=false;
+export const StartTrack = (simulation, laps, selectEvent)=>{
+    testRun=simulation;
+    laps-=1;
+    if(!simulation){
+        var catlap=0;
+        for(let cat of lapData){
+            if(catlap>laps) catlap=0;
+                catlap+=1;
+        }
+    }
     track = new CatTrack(laps);
+    $.ajax({
+        type: "POST",
+        url: "/web/serverGetCats.py",
+        async:false,
+        data:{
+            'EventID':selectEvent
+        },
+        success: function(data){
+            catsArray = [];
+            for(let cat of data){let catData={catID:cat[0],catName:cat[1]}; catsArray.push(catData);}
+            //console.log("DEBUG:cats success!");
+        },
+        error: function(){
+            //console.log("DEBUG:failed cats!");
+        },
+    }).done(() => {
+        //console.log("DEBUG:CATS");
+    });
 }
 
 const resourcePath = "./resources/";
@@ -98,12 +124,17 @@ function generateCats(catList){
     var position = 0;
     for(let cat of catList) {
         let objCat = new Cat(cat.catName, cat.catID);
-        objCat.setRandomSpeed();
-        objCat.nextLapTime = 10/objCat.speed;  
+        if(testRun){
+            objCat.setRandomSpeed();
+            objCat.nextLapTime = 10/objCat.speed;
+        }
+        else{
+            objCat.nextLapTime = lapData[(track.maxStage+1)*position].lapTime;
+        }
         catsArray.push(objCat);
         RacingCats += `
         <div id="Cat${position}" class="catHolder" style="display:inline">
-            <img style="top:${pivotPoint.top}px; left:${pivotPoint.left}px; animation: movement${position} ${10/objCat.speed}s; animation-timing-function: linear;" src="${resourcePath}${cat.catName}.png"/>
+            <img style="top:${pivotPoint.top}px; left:${pivotPoint.left}px; animation: movement${position} ${objCat.nextLapTime}s; animation-timing-function: linear;" src="${resourcePath}${cat.catName}.png"/>
         </div>
         `;
         position+=1;
@@ -122,18 +153,22 @@ addEventListener("animationend",function listener(event){
     for(let cat of track.competingCats){
         if(event.animationName.split('movement')[1] == cat.id){
             cat.nextStage();
-            cat.setRandomSpeed();
-            cat.nextLapTime = 10/cat.speed;
+            if(testRun){
+                cat.setRandomSpeed();
+                cat.nextLapTime = 10/cat.speed;
+            }
+            else if(lapData[(track.maxStage+1)*position+cat.racingLayer] !== undefined){
+                cat.nextLapTime= lapData[(track.maxStage+1)*position+cat.racingLayer].lapTime;
+            }
             let newElement = element;
             parent.removeChild(element);
-            newElement.style.animation = `movement${position} ${10/cat.speed}s linear`;
+            newElement.style.animation = `movement${position} ${cat.nextLapTime}s linear`;
             parent.appendChild(newElement)
         }
     }
 });
 
 const RaceResult = function(){
-    console.log(track.finishList);
     var RaceResultHTML=`<h2>Race Result: </h2>`;
     for(let catNr in track.finishList){
         RaceResultHTML += `<h3 class="finish" id="No${catNr}">${track.finishList[catNr].name}</h3>`;
@@ -142,7 +177,7 @@ const RaceResult = function(){
 }
 
 var RacingComponent = ``;
-export const Racing = function setupRace(catList){
+export const Racing = function setupRace(){
     RacingComponent = `
     <article>
         <div id="meniuPisici">
@@ -155,7 +190,7 @@ export const Racing = function setupRace(catList){
                     <img id="finishline" class="hidden" src="${resourcePath}finishLine.png"/>
                 </div>
                 <div class="competingCats">
-                    ${generateCats(catList)}
+                    ${generateCats(catsArray)}
                 </div>
             </div>
             <div id="debugBtn">

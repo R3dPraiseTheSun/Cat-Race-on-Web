@@ -23,13 +23,13 @@ export const getAdminStatus = function(){
 export const loggedInUserStatus = function(value){
     loggedInUser=value;
 }
-export const GetLoggedInUser = function(value){
+export const GetLoggedInUser = function(){
     return loggedInUser;
 }
 export const UserIdStatus = function(value){
     UserId=value;
 }
-export const GetUserId = function(value){
+export const GetUserId = function(){
     return UserId;
 }
 

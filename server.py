@@ -16,19 +16,19 @@ import CatsLogic
 dbFuncs.create_connection(r"database\user_records.db")
 dbFuncs.create_table()
 
+catTrackFinalTimeList = []
 racingNow = False
-async def setRace(delay, trackLaps, eventID):
+async def setRace(delay, eventID):
 	try:
 		print("RACING STARTS IN ",delay," SECONDS!")
 		global racingNow
 		await asyncio.sleep(delay)
 		racingNow = True
 		print("RACING STARTS NOW ",racingNow)
-		catTrack = CatsLogic.CatTrack(5, trackLaps)
-		catTrack.generateSpeed()
-		finalTimes = catTrack.getFinalTimes()
-		dbFuncs.insert_event_winner(eventID, finalTimes.get('timeComplet')[0]['cat'])
-		return finalTimes
+		for catTrackTime in catTrackFinalTimeList:
+			if(eventID == catTrackTime['eventID']):
+				dbFuncs.insert_event_winner(eventID, catTrackTime['finalTime']['timeComplet'][0]['cat'])
+				return catTrackTime['finalTime']
 	except KeyboardInterrupt:
 		print('KeyboardInterrupt')
 		exit()
@@ -37,22 +37,25 @@ def getClosestEventTime():
 	closestEvent = dbFuncs.get_closest_event()
 	if len(closestEvent) == 0: return
 	laps = closestEvent[0][3]
-	print('event laps ',laps)
+	eventID=closestEvent[0][0]
 	date = datetime.strptime(closestEvent[0][1], "%d/%m/%Y")
 	time = datetime.strptime(closestEvent[0][2], "%H:%M")
-	dt1 = datetime(date.year,date.month,date.day,time.hour,time.minute,time.second) 
+	dt1 = datetime(date.year,date.month,date.day,time.hour,time.minute,time.second)
 	dt2 = datetime.now()
 	timeDiff = 0
+	print(dt1, dt2)
 	if(dt1 > dt2):
 		timeDiff = dt1-dt2 #Time until next racing event
+		delay = timeDiff.total_seconds()
+		returnData = {
+			"catInfo":asyncio.run(setRace(delay,eventID)),
+			"totalLaps":laps,
+			"eventID":eventID
+		}
+		return returnData
 	else:
 		timeDiff = dt2-dt1 #Time after event has already started
-	delay = timeDiff.total_seconds()
-	returnData = {
-		"catInfo":asyncio.run(setRace(delay, laps, closestEvent[0][0])),
-		"totalLaps":laps
-	}
-	return returnData
+		return False
 
 class ThreadingServer(ThreadingMixIn, HTTPServer):
     pass
@@ -136,7 +139,16 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			timeData = self.data.split('&')[1][self.data.split('&')[1].index('time')+5:].replace('%3A',':')
 			lapsData = self.data.split('&')[2][self.data.split('&')[2].index('laps')+5:]
 			# print(dateData, timeData, lapsData)
-			dbFuncs.insert_event(dateData, timeData, lapsData)
+			eventID = dbFuncs.insert_event(dateData, timeData, lapsData)
+			newCatTrack = CatsLogic.CatTrack(5,int(lapsData))
+			newCatTrack.generateSpeed()
+			finalTime = newCatTrack.getFinalTimes()
+			catTrackData={
+				'finalTime': finalTime,
+				'eventID': eventID
+			}
+			catTrackFinalTimeList.append(catTrackData)
+			print(catTrackData,catTrackFinalTimeList,sep='\n')
 			response = {
 				'response': 'yes'
 			}

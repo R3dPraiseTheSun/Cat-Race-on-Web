@@ -25,7 +25,7 @@ var curseState = 0;
 window.curseStateChanger = (state) => {
     curseState =  state;
     if(state == 0) selectEvent = null;
-    if(state == 2) StartTrack(true, $('#testLapsInput').val());
+    if(state == 2) StartTrack(true, $('#testLapsInput').val(), selectEvent);
     Utils.changePage(1);
 }
 window.finishRaceWin = () => {
@@ -125,9 +125,7 @@ const getCats=function catDB(){
 
 window.testEventSystem = () =>{
     var eventTime = $("#DateData").val();
-    console.log($("#DateData") ,$("#LapsData"));
     var eventLaps = $("#LapsData").val();
-    console.log(eventTime, eventLaps);
     // console.log(eventTime.split("T")[0].split('-')[2]+'/'+
     // eventTime.split("T")[0].split('-')[1]+'/'+
     // eventTime.split("T")[0].split('-')[0],
