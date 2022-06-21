@@ -34,9 +34,11 @@ if(document.cookie.includes('sessionID')){
         data: formData,
         dataType: "json",
         success: function(data){
+            // console.log(data);
             LoginFunc.logStatus(true);
             LoginFunc.loggedInUserStatus(data.user);
             LoginFunc.UserIdStatus(data.id);
+            LoginFunc.adminSetStatus(data.admin);
             updateHeader();
             updateNav();
             Utils.changePage(0);

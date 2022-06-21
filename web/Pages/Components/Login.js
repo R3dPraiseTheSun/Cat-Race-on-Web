@@ -5,6 +5,7 @@ import * as Utils from "../Utils/SwitchPageUtils.js";
 var isLogged = false;
 var loggedInUser = '';
 var UserId = '';
+var admin = 0;
 var modalShowing = false;
 
 export const logStatus = function(value){
@@ -13,6 +14,12 @@ export const logStatus = function(value){
     updateNav();
 }
 
+export const adminSetStatus = function(value){
+    admin=value;
+}
+export const getAdminStatus = function(){
+    return admin
+}
 export const loggedInUserStatus = function(value){
     loggedInUser=value;
 }
@@ -68,10 +75,11 @@ export function showModal() {
                     dataType: "json",
                     encode: true,
                     success: function(data){
-                        console.log(data);
+                        //console.log(data);
                         isLogged=true;
                         loggedInUser = data.user;
                         UserId = data.id;
+                        admin=data.admin;
                         updateHeader();
                         updateNav();
                         Utils.changePage(0);

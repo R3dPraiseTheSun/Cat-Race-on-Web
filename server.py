@@ -225,7 +225,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
 				#print(check)
 				loginData = {
 					'user':check[0][1],
-					'id':check[0][0]
+					'id':check[0][0],
+					'admin':check[0][5]
 				}
 				json_string = json.dumps(loginData).encode('utf-8')
 				self.send_response(200)
@@ -325,7 +326,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
 				data = {
 					"id" : data[0][0],
 					"user" : data[0][1],
-					"sessionID": sessionID
+					"sessionID": sessionID,
+					"admin": data[0][5]
 				}
 				json_string = json.dumps(data).encode('utf-8')
 

@@ -4,7 +4,7 @@ import {Footer} from "../Components/Footer.js";
 
 import * as finish from "../Components/FinishState.js";
 import { Racing, StartTrack } from "../Components/RaceComponent.js";
-import { GetUserId } from "../Components/Login.js";
+import { GetUserId, getAdminStatus } from "../Components/Login.js";
 
 import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
@@ -216,6 +216,18 @@ export const getEventList = function(){
     return eventList;
 }
 
+const adminTools = function(){
+    if(getAdminStatus()==1)
+        return(`
+        <div style="margin-top:20px"><p>(Admin Tool) Set a New Event:</p>
+            <label>Date and Time:<input id="DateData" type="datetime-local" value="${AddMinutesToDate(Date.now(),10)}" min="${AddMinutesToDate(Date.now(),10)}"></label>
+            <label>Number of Laps:<input id="LapsData" type"number" value="5"/></label>
+            <button onclick="window.testEventSystem();">Add Event</button>
+        </div>
+        `);
+    return ``;
+}
+
 const resourcePath = "./resources/";
 const Article = function curseBasedOnState(){ 
     if(curseState == 0){
@@ -233,11 +245,7 @@ const Article = function curseBasedOnState(){
                     <div id="debugBtn">
                         <label>Number of Laps:<input id="testLapsInput" type="number" value="5"/><button onclick="window.curseStateChanger(2);">Simulate Event</button></label>
                     </div>
-                    <div style="margin-top:20px"><p>(Admin Tool) Set a New Event:</p>
-                        <label>Date and Time:<input id="DateData" type="datetime-local" value="${AddMinutesToDate(Date.now(),10)}" min="${AddMinutesToDate(Date.now(),10)}"></label>
-                        <label>Number of Laps:<input id="LapsData" type"number" value="5"/></label>
-                        <button onclick="window.testEventSystem();">Add Event</button>
-                    </div>
+                    ${adminTools()}
                 </div>
             </div>
         </article>`
