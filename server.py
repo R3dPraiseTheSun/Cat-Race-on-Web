@@ -26,7 +26,9 @@ async def setRace(delay, eventID):
 		racingNow = True
 		print("RACING STARTS NOW ",racingNow)
 		for catTrackTime in catTrackFinalTimeList:
+			print(eventID, catTrackTime['eventID'], sep='\n\n\n')
 			if(eventID == catTrackTime['eventID']):
+				print(catTrackTime)
 				dbFuncs.insert_event_winner(eventID, catTrackTime['finalTime']['timeComplet'][0]['cat'])
 				return catTrackTime['finalTime']
 	except KeyboardInterrupt:
@@ -231,7 +233,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 			cookie = self.data.split('&')[0][self.data.split('&')[0].index('cookie')+7:]
 			clientID = self.data.split('&')[1][self.data.split('&')[1].index('clientID')+9:]
 			check = dbFuncs.check_cookie(cookie, clientID)
-			if(not check):
+			if(not cookie or not check):
 				self.send_response_only(404)
 			else: 
 				#print(check)

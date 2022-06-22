@@ -179,17 +179,17 @@ def insert_record(fullname, email, password):
                 "email":email,
                 "name":fullname
             }
-            cursor.execute("INSTERT INTO Financial(ID, balance) VALUES(?, ?)",(last_id, 0)).fetchall()
+            cursor.execute("INSERT INTO Financial(ID, balance) VALUES(?, ?)",(last_id, 0)).fetchall()
 
-            try:
-                os.mkdir('./users')
-            except OSError as error:
-                print(error)
-            userPath = './users/user_catalog.json'
-            print(userPath)
-            with open(userPath, 'a', encoding='utf-8') as f:
-                json.dump(data, f)
-                f.write('\n') 
+            # try:
+            #     os.mkdir('./users')
+            # except OSError as error:
+            #     print(error)
+            # userPath = './users/user_catalog.json'
+            # print(userPath)
+            # with open(userPath, 'a', encoding='utf-8') as f:
+            #     json.dump(data, f)
+            #     f.write('\n') 
             connection.commit()
         else: connection.commit()
 
