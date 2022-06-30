@@ -10,7 +10,7 @@ import * as Utils from "../Utils/SwitchPageUtils.js";
 import * as Statistics from "../Components/Statistics.js";
 import { betList, getStickyBets } from "../Components/BetListSticky.js";
 import { PastEvent } from "../Utils/EventManager.js";
-import download_events from exportData;
+
 
 var selectEvent = null;
 
@@ -254,7 +254,6 @@ const Article = function curseBasedOnState(){
         return Racing(catsArray);
     }
 };
-
 
 function AddMinutesToDate(date, minutes) {
     let minDate = new Date(date + minutes*60000);
